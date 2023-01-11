@@ -84,7 +84,5 @@ int main(int argc, char** argv)
         qInfo().nospace().noquote() << "Start normal window";
     }
 
-    Q_CLEANUP_RESOURCE(icons);
-
     return app.exec();
 }

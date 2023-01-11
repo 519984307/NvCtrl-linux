@@ -34,29 +34,29 @@ MainWindow::MainWindow(nlohmann::json&& app_settings, QWidget* parent)
     , recent_update_dialog_window_ {this}
     , gpu_processes_overview_dialog_window_ {this}
     , update_checker_thread_ {new UpdateChecker, [](UpdateChecker* thread) { thread->quit(); }}
-, dbus_message_receiver_ {NvCtrl::config::APP_DBUS_SERVICE_NAME, this}
+    , dbus_message_receiver_ {NvCtrl::config::APP_DBUS_SERVICE_NAME, this}
 {
-ui->setupUi(this);
-setMinimumSize(size());
+    ui->setupUi(this);
+    setMinimumSize(size());
 
-{
-MeasureTime startup_time {"Starting application...", "Startup complete: {:.3f}ms"};
-spdlog::info("----------------------------------------");
+    {
+        MeasureTime startup_time {"Starting application...", "Startup complete: {:.3f}ms"};
+        spdlog::info("----------------------------------------");
 
-setWindowIcon(QIcon{":/icons/NvCtrl.png"});
-app_settings_ = std::move(app_settings);
+        setWindowIcon(QIcon{":/icons/NvCtrl.png"});
+        app_settings_ = std::move(app_settings);
 
-setup_tray_menu();
+        setup_tray_menu();
 
-set_static_info();
-connect_slots_and_signals();
-set_current_gpu_for_controllers();
-load_app_settings();
+        set_static_info();
+        connect_slots_and_signals();
+        set_current_gpu_for_controllers();
+        load_app_settings();
 
-update_dynamic_info();
-dynamic_info_update_timer_.start();
-}
-spdlog::info("----------------------------------------");
+        update_dynamic_info();
+        dynamic_info_update_timer_.start();
+    }
+    spdlog::info("----------------------------------------");
 }
 
 
@@ -282,7 +282,10 @@ void MainWindow::on_GpuFanController_error_occured()
 
 void MainWindow::on_UpdateChecker_error_occured(const QString& message)
 {
-    QMessageBox::critical(this, QStringLiteral("NvCtrl-Linux: check update error"), message + "\nCheck the internet connection");
+    QMessageBox::critical(this,
+                          QStringLiteral("NvCtrl-Linux: check update error"),
+                          message + "\nCheck the internet connection"
+                          );
 }
 
 
@@ -290,8 +293,9 @@ void MainWindow::on_UpdateChecker_error_occured(const QString& message)
 void MainWindow::on_UpdateChecker_new_version_released(const QString& version)
 {
     const auto result {
-        QMessageBox::information(this, "NvCtrl-Linux: updates available", "New version available: v" + version
-                                 + "\n(press Ok to view changelog)",
+        QMessageBox::information(this,
+                                 QStringLiteral("NvCtrl-Linux: updates available"),
+                                 "New version available: v" + version + "\n(press Ok to view changelog)",
                                  QMessageBox::Button::Ok, QMessageBox::Button::Cancel)
     };
     if (result == QMessageBox::Button::Ok)
@@ -611,13 +615,12 @@ void MainWindow::on_pushButton_apply_clock_offset_clicked()
     if (index > CLOCK_PROFILE_NONE)
     {
         gpu_clock_controller_.apply_current_clock_profile();
-        set_max_clock_values();
     }
     else
     {
         gpu_clock_controller_.reset_clocks();
-        set_max_clock_values();
     }
+    set_max_clock_values();
 
     ui->statusBar->showMessage("Clock profile applied: " + ui->comboBox_select_clock_offset_profile->currentText(), 2000);
     qInfo().noquote().nospace() << "Clock profile applied: " << ui->comboBox_select_clock_offset_profile->currentText();
@@ -694,11 +697,13 @@ void MainWindow::on_actionShow_GPU_processes_triggered()
 #ifndef _WIN32
     gpu_processes_overview_dialog_window_.set_current_gpu(&current_gpu_);
     gpu_processes_overview_dialog_window_.show();
+    QMessageBox::warning(this,
+                         QStringLiteral("Module under develop"),
+                         QStringLiteral("This module is under develop and may work incorrectly in some cases"));
 #else
     QMessageBox::warning(this,
                          QStringLiteral("Unsupported operation"),
-                         QStringLiteral("Process view is currently unsupported on win32 platform")
-                         );
+                         QStringLiteral("Process view is currently unsupported on win32 platform"));
 #endif
 }
 
