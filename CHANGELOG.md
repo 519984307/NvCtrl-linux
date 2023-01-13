@@ -1,3 +1,9 @@
+## Version 1.4.36 (pre-release (UNSTABLE))
+### Changes and fixes
+* Fixed double message about fan profile creation
+### Download
+Download source code [for version 1.4.36](https://codeberg.org/AlexCr4ckPentest/GWEpp/NvCtrl-linux/tag/v1.4.36)
+
 ## Version 1.4.35 (pre-release (UNSTABLE))
 ### Changes and fixes
 * UI changes: moved fan speed and GPU temperature widgets to main (info) tab

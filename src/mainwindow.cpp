@@ -284,8 +284,7 @@ void MainWindow::on_UpdateChecker_error_occured(const QString& message)
 {
     QMessageBox::critical(this,
                           QStringLiteral("NvCtrl-Linux: check update error"),
-                          message + "\nCheck the internet connection"
-                          );
+                          message + "\nCheck the internet connection");
 }
 
 
@@ -436,6 +435,7 @@ void MainWindow::update_clock_offset_widgets(int gpu_clock_offset, int mem_clock
 
     std::for_each(spin_boxes_gpu_offset.begin(), spin_boxes_gpu_offset.end(),
                   std::bind(set_value, std::placeholders::_1, gpu_clock_offset));
+
     std::for_each(spin_boxes_memory_offset.begin(), spin_boxes_memory_offset.end(),
                   std::bind(set_value, std::placeholders::_1, mem_clock_offset));
 }
