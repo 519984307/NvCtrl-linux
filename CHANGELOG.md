@@ -11,6 +11,7 @@
 * Refactored AppImage packing (add runtime)
 ### Download
 Download source code [for version 1.4.37](https://codeberg.org/AlexCr4ckPentest/GWEpp/NvCtrl-linux/tag/v1.4.37)
+Download AppImage [for version 1.4.37](https://codeberg.org/AlexCr4ckPentest/GWEpp/NvCtrl-linux/tag/v1.4.37)
 
 ## Version 1.4.36 (pre-release (UNSTABLE))
 ### Changes and fixes
@@ -39,13 +40,13 @@ Download source code [for version 1.4.34](https://codeberg.org/AlexCr4ckPentest/
 * Fixed endless recursion in NVMLpp library
 * Fixed curl binary for win32
 ### Download
-Download AppImage file [for version 1.4.33](https://codeberg.org/AlexCr4ckPentest/GWEpp/NvCtrl-linux/tag/v1.4.33)
+Download source code [for version 1.4.33](https://codeberg.org/AlexCr4ckPentest/GWEpp/NvCtrl-linux/tag/v1.4.33)
 
 ## Version 1.4.31 (release)
 ### Changes and fixes
 * Values now doesn\`t update when window is hidden (doesn\`t utilize much more CPU time when hidden)
 ### Download
-Download AppImage file [for version 1.4.31](https://codeberg.org/AlexCr4ckPentest/GWEpp/NvCtrl-linux/tag/v1.4.31)
+Download source code [for version 1.4.31](https://codeberg.org/AlexCr4ckPentest/GWEpp/NvCtrl-linux/tag/v1.4.31)
 
 ## Version 1.4.30 (release)
 ### Changes and fixes
@@ -54,26 +55,26 @@ Download AppImage file [for version 1.4.31](https://codeberg.org/AlexCr4ckPentes
 * All \*Controllers classes (and other classes) now marked as final
 * Explicit QString creating replased by QStringLiteral to avoid allocations
 ### Download
-Download AppImage file [for version 1.4.30](https://codeberg.org/AlexCr4ckPentest/GWEpp/NvCtrl-linux/tag/v1.4.30)
+Download source code [for version 1.4.30](https://codeberg.org/AlexCr4ckPentest/GWEpp/NvCtrl-linux/tag/v1.4.30)
 
 ## Version 1.4.26 (release)
 ### Changes and fixes
 * Static linking with libstdc++ and libgcc
 ### Download
-Download AppImage file [for version 1.4.26](https://codeberg.org/AlexCr4ckPentest/GWEpp/NvCtrl-linux/tag/v1.4.26)
+Download source code [for version 1.4.26](https://codeberg.org/AlexCr4ckPentest/GWEpp/NvCtrl-linux/tag/v1.4.26)
 
 ## Version 1.4.25 (release)
 ### Changes and fixes
 * Changed changelog URL, fixed "temporarily redirected" error when trying to get changelog
 ### Download
-Download AppImage file [for version 1.4.25](https://codeberg.org/AlexCr4ckPentest/GWEpp/NvCtrl-linux/tag/v1.4.25)
+Download source code [for version 1.4.25](https://codeberg.org/AlexCr4ckPentest/GWEpp/NvCtrl-linux/tag/v1.4.25)
 
 ## Version 1.4.24 (release)
 ### Changes and fixes
 * Updated submodules (spdlog lib)
 * Using LTO (link time optimizations) by default (via cmake_cxx_flags)
 ### Download
-Download AppImage file [for version 1.4.24](https://codeberg.org/AlexCr4ckPentest/GWEpp/NvCtrl-linux/tag/v1.4.24)
+Download source code [for version 1.4.24](https://codeberg.org/AlexCr4ckPentest/GWEpp/NvCtrl-linux/tag/v1.4.24)
 
 ## Version 1.4.23 (release)
 ### Changes and fixes
@@ -81,21 +82,21 @@ Download AppImage file [for version 1.4.24](https://codeberg.org/AlexCr4ckPentes
 * Updated build and appimage generate scripts
 * Updated submodules
 ### Download
-Download AppImage file [for version 1.4.23](https://codeberg.org/AlexCr4ckPentest/GWEpp/NvCtrl-linux/tag/v1.4.23)
+Download source code[for version 1.4.23](https://codeberg.org/AlexCr4ckPentest/GWEpp/NvCtrl-linux/tag/v1.4.23)
 
 ## Version 1.4.22 (release)
 ### Changes and fixes
 * Added build and install shell scripts for native build
 * Internal changes
 ### Download
-Download AppImage file [for version 1.4.22](https://codeberg.org/AlexCr4ckPentest/GWEpp/NvCtrl-linux/tag/v1.4.22)
+Download source code [for version 1.4.22](https://codeberg.org/AlexCr4ckPentest/GWEpp/NvCtrl-linux/tag/v1.4.22)
 
 ## Version 1.4.21 (release)
 ### Changes and fixes
 * Update submodules: update NVMLpp to version 525.60.11
 * Some internal changes
 ### Download
-Download AppImage file [for version 1.4.21](https://codeberg.org/AlexCr4ckPentest/GWEpp/NvCtrl-linux/tag/v1.4.21)
+Download source code [for version 1.4.21](https://codeberg.org/AlexCr4ckPentest/GWEpp/NvCtrl-linux/tag/v1.4.21)
 
 ## Version 1.4.19 (release)
 ### Changes and fixes
@@ -106,27 +107,27 @@ Download AppImage file [for version 1.4.21](https://codeberg.org/AlexCr4ckPentes
 * Updated AppImage build script
 * Renamed .AppDir folder
 ### Download
-Download AppImage file [for version 1.4.19](https://codeberg.org/AlexCr4ckPentest/GWEpp/NvCtrl-linux/tag/v1.4.19)
+Download source code [for version 1.4.19](https://codeberg.org/AlexCr4ckPentest/GWEpp/NvCtrl-linux/tag/v1.4.19)
 
 ## Version 1.4.16 (release)
 ### Changes and fixes
 * Fallback to previous process view impl, fixed segfault
 * Updated NVMLpp: fixed process list size, removed unused code
 ### Download
-Download AppImage file [for version 1.4.16](https://codeberg.org/AlexCr4ckPentest/NvCtrl-linux/releases/tag/v1.4.16)
+Download source code [for version 1.4.16](https://codeberg.org/AlexCr4ckPentest/NvCtrl-linux/releases/tag/v1.4.16)
 
 ## Version 1.4.15 (release)
 ### Changes and fixes
 * Reduced max rows count in GpuProcessesOverviewDialog (32 -> 24)
 ### Download
-Download AppImage file [for version 1.4.15](https://codeberg.org/AlexCr4ckPentest/NvCtrl-linux/releases/tag/v1.4.15)
+Download source code [for version 1.4.15](https://codeberg.org/AlexCr4ckPentest/NvCtrl-linux/releases/tag/v1.4.15)
 
 ## Version 1.4.14 (release)
 ### Changes and fixes
 * Change .dump() func call to decrease file size
 * Added function name in debug log
 ### Download
-Download AppImage file [for version 1.4.14](https://codeberg.org/AlexCr4ckPentest/NvCtrl-linux/releases/tag/v1.4.14)
+Download source code [for version 1.4.14](https://codeberg.org/AlexCr4ckPentest/NvCtrl-linux/releases/tag/v1.4.14)
 
 ## Version 1.4.13 (release)
 ### Changes and fixes
@@ -138,21 +139,21 @@ Download AppImage file [for version 1.4.14](https://codeberg.org/AlexCr4ckPentes
 * Fixed wrong fan profile loading (it was load to clock offset comboBox widget)
 * Removed unused code
 ### Download
-Download AppImage file [for version 1.4.13](https://codeberg.org/AlexCr4ckPentest/NvCtrl-linux/releases/tag/v1.4.13)
+Download source code [for version 1.4.13](https://codeberg.org/AlexCr4ckPentest/NvCtrl-linux/releases/tag/v1.4.13)
 
 ## Version 1.4.12 (pre-release (UNSTABLE))
 ### Changes and fixes
 * Fixed wrong fan profile loading (it was load to clock offset comboBox widget)
 * Removed unused code
 ### Download
-Download AppImage file [for version 1.4.12](https://codeberg.org/AlexCr4ckPentest/NvCtrl-linux/releases/tag/v1.4.12)
+Download source code [for version 1.4.12](https://codeberg.org/AlexCr4ckPentest/NvCtrl-linux/releases/tag/v1.4.12)
 
 ## Version 1.4.11 (pre-release (UNSTABLE))
 ### Changes and fixes
 * Removed std::async() call, replace by std::for_each
 * Fixed: wrong memory usage value for running processes
 ### Download
-Download AppImage file [for version 1.4.11](https://codeberg.org/AlexCr4ckPentest/NvCtrl-linux/releases/tag/v1.4.11)
+Download source code [for version 1.4.11](https://codeberg.org/AlexCr4ckPentest/NvCtrl-linux/releases/tag/v1.4.11)
 
 ## Version 1.4.10 (pre-release (UNSTABLE))
 ### Changes and fixes
@@ -160,7 +161,7 @@ Download AppImage file [for version 1.4.11](https://codeberg.org/AlexCr4ckPentes
 * Added download links to changelog
 * Open browser when link clicked on RecentUpdatesDialog window
 ### Download
-Download AppImage file [for version 1.4.10](https://codeberg.org/AlexCr4ckPentest/NvCtrl-linux/releases/tag/v1.4.10)
+Download source code [for version 1.4.10](https://codeberg.org/AlexCr4ckPentest/NvCtrl-linux/releases/tag/v1.4.10)
 
 ## Version 1.4.9 (pre-release (UNSTABLE))
 ### Changes and fixes
@@ -168,7 +169,7 @@ Download AppImage file [for version 1.4.10](https://codeberg.org/AlexCr4ckPentes
 * Added spacer in menuBar at tab 'view'
 * Replaced GpuProcessesOverviewDialog with raw NVMLpp::NVML_device\* (GpuProcessesController not used yet)
 ### Download
-Download AppImage file [for version 1.4.9](https://codeberg.org/AlexCr4ckPentest/NvCtrl-linux/releases/tag/v1.4.9)
+Download source code [for version 1.4.9](https://codeberg.org/AlexCr4ckPentest/NvCtrl-linux/releases/tag/v1.4.9)
 
 ## Version 1.4.8 (pre-release (UNSTABLE))
 ### Changes and fixes
@@ -176,7 +177,7 @@ Download AppImage file [for version 1.4.9](https://codeberg.org/AlexCr4ckPentest
 * Updated UI elements on GpuProcessesOverviewDialog
 * Fixed errors in NVMLpp lib
 ### Download
-Download AppImage file [for version 1.4.8](https://codeberg.org/AlexCr4ckPentest/NvCtrl-linux/releases/tag/v1.4.8)
+Download source code [for version 1.4.8](https://codeberg.org/AlexCr4ckPentest/NvCtrl-linux/releases/tag/v1.4.8)
 
 ## Version 1.4.7 (pre-release (UNSTABLE))
 ### Changes and fixes
@@ -186,7 +187,7 @@ Download AppImage file [for version 1.4.8](https://codeberg.org/AlexCr4ckPentest
 * Fixed not showing messagebox when local version is little bit higher than remote (for developers)
 * Some other internal changes (codestyle, logic)
 ### Download
-Download AppImage file [for version 1.4.7](https://codeberg.org/AlexCr4ckPentest/NvCtrl-linux/releases/tag/v1.4.7)
+Download source code [for version 1.4.7](https://codeberg.org/AlexCr4ckPentest/NvCtrl-linux/releases/tag/v1.4.7)
 
 ## Version 1.4.5 (release)
 ### Changes and fixes
@@ -195,14 +196,14 @@ Download AppImage file [for version 1.4.7](https://codeberg.org/AlexCr4ckPentest
 * New dependency: QtDBus lib (should be already installed with qt5-base package (for Arch GNU/Linux), other distros not tested)
 * Some other internal fixes
 ### Download
-Download AppImage file [for version 1.4.5](https://codeberg.org/AlexCr4ckPentest/NvCtrl-linux/releases/tag/v1.4.5)
+Download source code [for version 1.4.5](https://codeberg.org/AlexCr4ckPentest/NvCtrl-linux/releases/tag/v1.4.5)
 
 ## Version 1.4.2 (release)
 ### Changes and fixes
 * Changed SettingsManager class, now its doesn\`t need QObject
 * Removed std::unique_ptr<> from SettingsManager for std::fstream object
 ### Download
-Download AppImage file [for version 1.4.2](https://codeberg.org/AlexCr4ckPentest/NvCtrl-linux/releases/tag/v1.4.2)
+Download source code [for version 1.4.2](https://codeberg.org/AlexCr4ckPentest/NvCtrl-linux/releases/tag/v1.4.2)
 
 ## Version 1.4.0 (release)
 ### Changes and fixes
@@ -218,7 +219,7 @@ Download AppImage file [for version 1.4.2](https://codeberg.org/AlexCr4ckPentest
 * * Removed support of loading default config from /usr/share/gwepp/gwepp.json
 * PKGBUILD files is no longer distributes
 ### Download
-Download AppImage file [for versions 1.4.0](https://codeberg.org/AlexCr4ckPentest/NvCtrl-linux/releases/tag/v1.4.0)
+Download source code [for versions 1.4.0](https://codeberg.org/AlexCr4ckPentest/NvCtrl-linux/releases/tag/v1.4.0)
 
 ## Version 1.3.19 (pre-release (UNSTABLE))
 ### Changes and fixes
