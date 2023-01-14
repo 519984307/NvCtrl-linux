@@ -16,7 +16,7 @@ Simple and lightweight utility for control Nvida GPU on GNU/Linux
 * C++ compiler: (GCC or LLVM Clang) with C++17 support
 * CMake and Make
 * Qt5 package (Qt5Core, Qt5Widgets, Qt5Gui, Qt5DBus)
-* Nvida drivers 510.XX or later
+* Nvidia drivers 510.XX or later
 #### Building steps
 ```
 $ git clone --recurse-submodules https://codeberg.org/AlexCr4ckPentest/NvCtrl-linux
