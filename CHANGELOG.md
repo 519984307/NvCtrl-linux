@@ -1,3 +1,17 @@
+## Version 1.4.37 (release)
+### Changes and fixes
+* Fixed double message about fan profile creation
+* UI changes: moved fan speed and GPU temperature widgets to main (info) tab
+* Updated submodules (spdlog)
+* Fixed warning with LTO
+* Added win32 platform support via MinGW cross compilation
+* Disabled GPU processes table for win32 platform (unsupported yet)
+* Fixed endless recursion in NVMLpp library
+* Fixed curl binary for win32
+* Refactored AppImage packing (add runtime)
+### Download
+Download source code [for version 1.4.37](https://codeberg.org/AlexCr4ckPentest/GWEpp/NvCtrl-linux/tag/v1.4.37)
+
 ## Version 1.4.36 (pre-release (UNSTABLE))
 ### Changes and fixes
 * Fixed double message about fan profile creation
