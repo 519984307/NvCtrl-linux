@@ -230,7 +230,7 @@ void MainWindow::on_GpuClockController_info_ready(const GpuClockController::cloc
 
 void MainWindow::on_GpuFanController_info_ready(const GpuFanController::fan_rates& fan_rates)
 {
-    ui->lineEdit_current_fan_speed_level->setText(QString::number(fan_rates.fan_speed_level) + "%");
+    ui->progressBar_current_fan_speed_level->setValue(fan_rates.fan_speed_level);
 }
 
 
@@ -282,7 +282,9 @@ void MainWindow::on_GpuFanController_error_occured()
 
 void MainWindow::on_UpdateChecker_error_occured(const QString& message)
 {
-    QMessageBox::critical(this, QStringLiteral("NvCtrl-Linux: check update error"), message + "\nCheck the internet connection");
+    QMessageBox::critical(this,
+                          QStringLiteral("NvCtrl-Linux: check update error"),
+                          message + "\nCheck the internet connection");
 }
 
 
@@ -290,8 +292,9 @@ void MainWindow::on_UpdateChecker_error_occured(const QString& message)
 void MainWindow::on_UpdateChecker_new_version_released(const QString& version)
 {
     const auto result {
-        QMessageBox::information(this, QStringLiteral("NvCtrl-Linux: updates available"), "New version available: v" + version
-                                 + "\n(press Ok to view changelog)",
+        QMessageBox::information(this,
+                                 QStringLiteral("NvCtrl-Linux: updates available"),
+                                 "New version available: v" + version + "\n(press Ok to view changelog)",
                                  QMessageBox::Button::Ok, QMessageBox::Button::Cancel)
     };
     if (result == QMessageBox::Button::Ok)
@@ -304,7 +307,8 @@ void MainWindow::on_UpdateChecker_new_version_released(const QString& version)
 
 void MainWindow::on_UpdateChecker_update_not_found()
 {
-    QMessageBox::information(this, QStringLiteral("NvCtrl-Linux: no updates found"),
+    QMessageBox::information(this,
+                             QStringLiteral("NvCtrl-Linux: no updates found"),
                              QStringLiteral("No updates available, you are using latest version (v%1)")
                              .arg(NvCtrl::config::APP_VERSION_STRING));
 }
@@ -431,6 +435,7 @@ void MainWindow::update_clock_offset_widgets(int gpu_clock_offset, int mem_clock
 
     std::for_each(spin_boxes_gpu_offset.begin(), spin_boxes_gpu_offset.end(),
                   std::bind(set_value, std::placeholders::_1, gpu_clock_offset));
+
     std::for_each(spin_boxes_memory_offset.begin(), spin_boxes_memory_offset.end(),
                   std::bind(set_value, std::placeholders::_1, mem_clock_offset));
 }
@@ -468,23 +473,23 @@ const std::pair<std::vector<QSpinBox*>, std::vector<QSpinBox*>>& MainWindow::get
     static const std::pair<std::vector<QSpinBox*>, std::vector<QSpinBox*>> widgets_list {
         {
             ui->spinBox_pstate0_gpu_offset,
-            ui->spinBox_pstate1_gpu_offset,
-            ui->spinBox_pstate2_gpu_offset,
-            ui->spinBox_pstate3_gpu_offset,
-            ui->spinBox_pstate4_gpu_offset,
-            ui->spinBox_pstate5_gpu_offset,
-            ui->spinBox_pstate6_gpu_offset,
-            ui->spinBox_pstate7_gpu_offset
+                    ui->spinBox_pstate1_gpu_offset,
+                    ui->spinBox_pstate2_gpu_offset,
+                    ui->spinBox_pstate3_gpu_offset,
+                    ui->spinBox_pstate4_gpu_offset,
+                    ui->spinBox_pstate5_gpu_offset,
+                    ui->spinBox_pstate6_gpu_offset,
+                    ui->spinBox_pstate7_gpu_offset
         },
         {
             ui->spinBox_pstate0_mem_offset,
-            ui->spinBox_pstate1_mem_offset,
-            ui->spinBox_pstate2_mem_offset,
-            ui->spinBox_pstate3_mem_offset,
-            ui->spinBox_pstate4_mem_offset,
-            ui->spinBox_pstate5_mem_offset,
-            ui->spinBox_pstate6_mem_offset,
-            ui->spinBox_pstate7_mem_offset
+                    ui->spinBox_pstate1_mem_offset,
+                    ui->spinBox_pstate2_mem_offset,
+                    ui->spinBox_pstate3_mem_offset,
+                    ui->spinBox_pstate4_mem_offset,
+                    ui->spinBox_pstate5_mem_offset,
+                    ui->spinBox_pstate6_mem_offset,
+                    ui->spinBox_pstate7_mem_offset
         },
     };
     const auto reset {[](QSpinBox* const spinbox) { spinbox->setValue(0); }};
@@ -610,13 +615,12 @@ void MainWindow::on_pushButton_apply_clock_offset_clicked()
     if (index > CLOCK_PROFILE_NONE)
     {
         gpu_clock_controller_.apply_current_clock_profile();
-        set_max_clock_values();
     }
     else
     {
         gpu_clock_controller_.reset_clocks();
-        set_max_clock_values();
     }
+    set_max_clock_values();
 
     ui->statusBar->showMessage("Clock profile applied: " + ui->comboBox_select_clock_offset_profile->currentText(), 2000);
     qInfo().noquote().nospace() << "Clock profile applied: " << ui->comboBox_select_clock_offset_profile->currentText();
@@ -690,8 +694,17 @@ void MainWindow::on_actionCheck_for_updates_triggered()
 
 void MainWindow::on_actionShow_GPU_processes_triggered()
 {
+#ifndef _WIN32
     gpu_processes_overview_dialog_window_.set_current_gpu(&current_gpu_);
     gpu_processes_overview_dialog_window_.show();
+    QMessageBox::warning(this,
+                         QStringLiteral("Module under develop"),
+                         QStringLiteral("This module is under develop and may work incorrectly in some cases"));
+#else
+    QMessageBox::warning(this,
+                         QStringLiteral("Unsupported operation"),
+                         QStringLiteral("Process view is currently unsupported on win32 platform"));
+#endif
 }
 
 

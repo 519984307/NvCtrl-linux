@@ -54,14 +54,13 @@ void GpuProcessesOverviewDialog::on_buttonBox_rejected()
 void GpuProcessesOverviewDialog::show_processes_info()
 {
     const auto proc_list {current_gpu_->get_running_processes()};
-
     ui->tableWidget_proc_info->setRowCount(proc_list.size());
 
     int curr_row {0};
     for (const auto& process : proc_list)
     {
         ui->tableWidget_proc_info->setCellWidget(curr_row, CELL_PROC_PID, new QLabel {QString::number(process.pid), this});
-        ui->tableWidget_proc_info->setCellWidget(curr_row, CELL_PROC_MEM_USAGE, new QLabel {QString{"%1 MiB"}.arg(process.usedGpuMemory / 1024 / 1024), this});
+        ui->tableWidget_proc_info->setCellWidget(curr_row, CELL_PROC_MEM_USAGE, new QLabel {QString{QStringLiteral("%1 MiB")}.arg(process.usedGpuMemory / 1024 / 1024), this});
         ui->tableWidget_proc_info->setCellWidget(curr_row, CELL_PROC_NAME, new QLabel {get_process_name_by_pid(process.pid), this});
         curr_row++;
     }
@@ -69,8 +68,9 @@ void GpuProcessesOverviewDialog::show_processes_info()
 
 
 
-void GpuProcessesOverviewDialog::on_tableWidget_proc_info_cellDoubleClicked(int row, [[maybe_unused]] int column)
+void GpuProcessesOverviewDialog::on_tableWidget_proc_info_cellDoubleClicked([[maybe_unused]] int row, [[maybe_unused]] int column)
 {
+#ifndef _WIN32
     const int pid {static_cast<QLabel*>(
                     ui->tableWidget_proc_info->cellWidget(row, CELL_PROC_PID))
                 ->text().toInt()};
@@ -92,6 +92,7 @@ void GpuProcessesOverviewDialog::on_tableWidget_proc_info_cellDoubleClicked(int 
             QMessageBox::critical(this, QStringLiteral("Error occured"), err_str);
         }
     }
+#endif
 }
 
 
@@ -125,7 +126,7 @@ void GpuProcessesOverviewDialog::closeEvent(QCloseEvent* close_event)
 
 
 
-QString GpuProcessesOverviewDialog::get_process_name_by_pid(pid_t proc_pid) const
+QString GpuProcessesOverviewDialog::get_process_name_by_pid([[maybe_unused]] pid_t proc_pid) const
 {
     char file_name[32] {0};
     std::sprintf(file_name, "/proc/%d/cmdline", proc_pid);
