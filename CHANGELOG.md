@@ -1,3 +1,10 @@
+## Version 1.4.38 (pre-release (UNSTABLE))
+### Changes and fixes
+* Update submodules (NVMLpp, spdlog)
+### Download
+Download source code [for version 1.4.38](https://codeberg.org/AlexCr4ckPentest/GWEpp/NvCtrl-linux/tag/v1.4.38)
+Download AppImage [for version 1.4.38](https://codeberg.org/AlexCr4ckPentest/GWEpp/NvCtrl-linux/tag/v1.4.38)
+
 ## Version 1.4.37 (release)
 ### Changes and fixes
 * Fixed double message about fan profile creation
