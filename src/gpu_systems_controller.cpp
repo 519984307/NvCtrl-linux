@@ -1,0 +1,99 @@
+#include "gpu_systems_controller.hpp"
+
+GpuSystemsController::GpuSystemsController(QObject* parent)
+    : QObject {parent}
+    , fan_controller_ {}
+    , clock_controller_ {}
+    , power_controller_ {}
+    , utilizations_controller_ {}
+{
+    connect(&fan_controller_, &GpuFanController::info_ready, this, &GpuSystemsController::on_GpuFanController_info_ready);
+    connect(&fan_controller_, &GpuFanController::error_occured, this, &GpuSystemsController::on_GpuFanController_error_occured);
+
+    connect(&clock_controller_, &GpuClockController::info_ready, this, &GpuSystemsController::on_GpuClockController_info_ready);
+    connect(&clock_controller_, &GpuClockController::error_occured, this, &GpuSystemsController::on_GpuClockController_error_occured);
+
+    connect(&power_controller_, &GpuPowerController::info_ready, this, &GpuSystemsController::on_GpuPowerController_info_ready);
+    connect(&power_controller_, &GpuPowerController::error_occured, this, &GpuSystemsController::on_GpuPowerController_error_occured);
+
+    connect(&utilizations_controller_, &GpuUtilizationsController::info_ready, this,
+            &GpuSystemsController::on_GpuUtilizationsController_info_ready);
+    connect(&utilizations_controller_, &GpuUtilizationsController::encoder_decoder_unsupported, this,
+            &GpuSystemsController::on_GpuUtilizationsController_encoder_decoder_unsupported);
+}
+
+
+
+void GpuSystemsController::set_current_gpu(NVMLpp::NVML_device* current_gpu)
+{
+    fan_controller_.set_device(current_gpu);
+    clock_controller_.set_device(current_gpu);
+    power_controller_.set_device(current_gpu);
+    utilizations_controller_.set_device(current_gpu);
+}
+
+
+
+void GpuSystemsController::update_info()
+{
+    fan_controller_.update_info();
+    clock_controller_.update_info();
+    power_controller_.update_info();
+    utilizations_controller_.update_info();
+}
+
+
+
+void GpuSystemsController::on_GpuFanController_info_ready(const GpuFanController::fan_rates& fan_rates)
+{
+    emit fan_info_ready(fan_rates);
+}
+
+
+
+void GpuSystemsController::on_GpuFanController_error_occured()
+{
+    emit fan_controller_error();
+}
+
+
+
+void GpuSystemsController::on_GpuClockController_info_ready(const GpuClockController::clock_values& clock_values)
+{
+    emit clock_info_ready(clock_values);
+}
+
+
+
+void GpuSystemsController::on_GpuClockController_error_occured()
+{
+    emit clock_controller_error();
+}
+
+
+
+void GpuSystemsController::on_GpuPowerController_info_ready(const GpuPowerController::power_rates& power_rates)
+{
+    emit power_info_ready(power_rates);
+}
+
+
+
+void GpuSystemsController::on_GpuPowerController_error_occured()
+{
+    emit power_controller_error();
+}
+
+
+
+void GpuSystemsController::on_GpuUtilizationsController_info_ready(const GpuUtilizationsController::utilization_rates& utilization_rates)
+{
+    emit utilization_info_ready(utilization_rates);
+}
+
+
+
+void GpuSystemsController::on_GpuUtilizationsController_encoder_decoder_unsupported()
+{
+    emit utilization_controller_encoder_unsupported();
+}
