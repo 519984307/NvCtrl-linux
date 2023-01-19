@@ -59,11 +59,11 @@ private slots:
     void on_GpuPowerController_info_ready(const GpuPowerController::power_rates& power_rates);
     void on_GpuClockController_info_ready(const GpuClockController::clock_values& clock_values);
     void on_GpuFanController_info_ready(const GpuFanController::fan_rates& fan_rates);
-
     void on_GpuUtilizationsController_encoder_decoder_unsupported();
     void on_GpuPowerController_error_occured();
     void on_GpuClockController_error_occured();
     void on_GpuFanController_error_occured();
+
     void on_UpdateChecker_error_occured(const QString& message);
     void on_UpdateChecker_new_version_released(const QString& version);
     void on_UpdateChecker_update_not_found();

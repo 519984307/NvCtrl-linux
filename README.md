@@ -9,7 +9,6 @@ Simple and lightweight utility for control Nvida GPU on GNU/Linux
 
 ## Installation
 * Download source code of [latest release](https://codeberg.org/AlexCr4ckPentest/NvCtrl-linux/releases/latest)
-* Download AppImage file of [latest release](https://codeberg.org/AlexCr4ckPentest/NvCtrl-linux/releases/latest)
 
 ### Building from sources
 #### Build dependencies
@@ -28,7 +27,8 @@ Simple and lightweight utility for control Nvida GPU on GNU/Linux
 ```
 $ git clone --recurse-submodules https://codeberg.org/AlexCr4ckPentest/NvCtrl-linux
 $ cd NvCtrl-linux
-$ ./build.sh
+$ ./make_build.sh native
 ```
-#### To install executable in system, run:
-``` $ sudo ./install.sh ```
+
+To install executable in system, run:
+``` $ sudo ./make_build.sh install ```

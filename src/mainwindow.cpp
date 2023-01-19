@@ -717,12 +717,14 @@ void MainWindow::connect_slots_and_signals()
         ui->label_power_limit_slider_indicator->setText(QString::number(value));
     });
 
-    connect(&gpu_utilizations_controller_, &GpuUtilizationsController::info_ready, this, &MainWindow::on_GpuUtilizationsController_info_ready);
-    connect(&gpu_power_controller_, &GpuPowerController::info_ready, this, &::MainWindow::on_GpuPowerController_info_ready);
+    connect(&gpu_utilizations_controller_, &GpuUtilizationsController::info_ready, this,
+            &MainWindow::on_GpuUtilizationsController_info_ready);
+    connect(&gpu_power_controller_, &GpuPowerController::info_ready, this, &MainWindow::on_GpuPowerController_info_ready);
     connect(&gpu_clock_controller_, &GpuClockController::info_ready, this, &MainWindow::on_GpuClockController_info_ready);
     connect(&gpu_fan_controller_, &GpuFanController::info_ready, this, &MainWindow::on_GpuFanController_info_ready);
 
-    connect(&gpu_utilizations_controller_, &GpuUtilizationsController::encoder_decoder_unsupported, this, &MainWindow::on_GpuUtilizationsController_encoder_decoder_unsupported);
+    connect(&gpu_utilizations_controller_, &GpuUtilizationsController::encoder_decoder_unsupported, this,
+            &MainWindow::on_GpuUtilizationsController_encoder_decoder_unsupported);
     connect(&gpu_power_controller_, &GpuPowerController::error_occured, this, &MainWindow::on_GpuPowerController_error_occured);
     connect(&gpu_clock_controller_, &GpuClockController::error_occured, this, &MainWindow::on_GpuClockController_error_occured);
     connect(&gpu_fan_controller_, &GpuFanController::error_occured, this, &MainWindow::on_GpuFanController_error_occured);
