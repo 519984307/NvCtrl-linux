@@ -3,7 +3,6 @@
 * Update submodules (NVMLpp, spdlog)
 ### Download
 Download source code [for version 1.4.38](https://codeberg.org/AlexCr4ckPentest/NvCtrl-linux/tag/v1.4.38)
-Download AppImage [for version 1.4.38](https://codeberg.org/AlexCr4ckPentest/NvCtrl-linux/tag/v1.4.38)
 
 ## Version 1.4.37 (release)
 ### Changes and fixes
@@ -18,7 +17,6 @@ Download AppImage [for version 1.4.38](https://codeberg.org/AlexCr4ckPentest/NvC
 * Refactored AppImage packing (add runtime)
 ### Download
 Download source code [for version 1.4.37](https://codeberg.org/AlexCr4ckPentest/NvCtrl-linux/tag/v1.4.37)
-Download AppImage [for version 1.4.37](https://codeberg.org/AlexCr4ckPentest/NvCtrl-linux/tag/v1.4.37)
 
 ## Version 1.4.36 (pre-release (UNSTABLE))
 ### Changes and fixes

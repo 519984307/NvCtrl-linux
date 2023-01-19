@@ -9,7 +9,6 @@ Simple and lightweight utility for control Nvida GPU on GNU/Linux
 
 ## Installation
 * Download source code of [latest release](https://codeberg.org/AlexCr4ckPentest/NvCtrl-linux/releases/latest)
-* Download AppImage file of [latest release](https://codeberg.org/AlexCr4ckPentest/NvCtrl-linux/releases/latest)
 
 ### Building from sources
 #### Build dependencies
