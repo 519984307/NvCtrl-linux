@@ -8,6 +8,8 @@
 #include "nvmlpp/nvmlpp_session.hpp"
 #include "nvmlpp/nvmlpp_device.hpp"
 
+#include "gpu_systems_controller.hpp"
+
 #include "gpu_utilizations_controller.hpp"
 #include "gpu_power_controller.hpp"
 #include "gpu_clock_controller.hpp"

@@ -44,6 +44,27 @@ void GpuSystemsController::update_info()
 
 
 
+void GpuSystemsController::set_fan_speed(unsigned value)
+{
+    fan_controller_.set_fan_speed(value);
+}
+
+
+
+void GpuSystemsController::set_power_limit(unsigned value)
+{
+    power_controller_.set_power_limit(value);
+}
+
+
+
+void GpuSystemsController::set_current_clock_profile(const nlohmann::json& clock_profile)
+{
+    clock_controller_.apply_clock_profile(clock_profile);
+}
+
+
+
 void GpuSystemsController::on_GpuFanController_info_ready(const GpuFanController::fan_rates& fan_rates)
 {
     emit fan_info_ready(fan_rates);

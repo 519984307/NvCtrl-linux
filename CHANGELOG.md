@@ -1,3 +1,15 @@
+## Version 1.4.40 (pre-release (UNSTABLE))
+### Changes and fixes
+* Changed method GpuClockController::apply_clock_profile:
+* * require arg - ref to current profile
+* * replace raw for loops by std::for_each() + lambda
+* Changed method MainWindow::load_fan_and_clock_offset_profiles(): 
+* * replace raw for loops by std::for_each() + lambda 
+* Clock profile values now shows only when profile applied
+* Other internal changes and fixes
+### Download
+Download source code [for version 1.4.40](https://codeberg.org/AlexCr4ckPentest/NvCtrl-linux/tag/v1.4.40)
+
 ## Version 1.4.38 (pre-release (UNSTABLE))
 ### Changes and fixes
 * Update submodules (NVMLpp, spdlog)

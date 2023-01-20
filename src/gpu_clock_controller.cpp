@@ -19,31 +19,28 @@ GpuClockController::GpuClockController(QObject* parrent)
 
 
 
-void GpuClockController::apply_current_clock_profile()
+void GpuClockController::apply_clock_profile(const nlohmann::json& clock_offset_profile)
 {
-    const auto& current_clock_profile {*ptr_current_clock_profile_};
-    const auto& gpu_offsets = current_clock_profile["offset_values"]["gpu_offsets"];
-    const auto& mem_offsets = current_clock_profile["offset_values"]["memory_offsets"];
+    const auto& gpu_offsets = clock_offset_profile["offset_values"]["gpu_offsets"];
+    const auto& mem_offsets = clock_offset_profile["offset_values"]["memory_offsets"];
 
     QStringList args {};
-    for (const auto& offset : gpu_offsets)
-    {
-        const auto [pstate, gpu_clock_offset] {offset.get<std::pair<int, int>>()};
-        args.append(QStringLiteral("-a"));
-        args.append(QString{NVIDIA_SETTINGS_GPU_CLOCK_OFFSET}
-                    .arg(current_gpu_->get_index())
-                    .arg(pstate)
-                    .arg(gpu_clock_offset));
-    }
-    for (const auto& offset : mem_offsets)
-    {
-        const auto [pstate, mem_clock_offset] {offset.get<std::pair<int, int>>()};
-        args.append(QStringLiteral("-a"));
-        args.append(QString{NVIDIA_SETTINGS_MEM_CLOCK_OFFSET}
-                    .arg(current_gpu_->get_index())
-                    .arg(pstate)
-                    .arg(mem_clock_offset));
-    }
+    const auto construct_args_list {
+        [&args, this](const char* attribute, const nlohmann::json& value) {
+            const auto [pstate, gpu_clock_offset] {value.get<std::pair<int, int>>()};
+            args.append(QStringLiteral("-a"));
+            args.append(QString{attribute}
+                        .arg(current_gpu_->get_index())
+                        .arg(pstate)
+                        .arg(gpu_clock_offset));
+        }
+    };
+
+    std::for_each(gpu_offsets.begin(), gpu_offsets.end(),
+                  std::bind(construct_args_list, NVIDIA_SETTINGS_GPU_CLOCK_OFFSET, std::placeholders::_1));
+    std::for_each(mem_offsets.begin(), mem_offsets.end(),
+                  std::bind(construct_args_list, NVIDIA_SETTINGS_MEM_CLOCK_OFFSET, std::placeholders::_1));
+
     run_nvidia_settings(std::move(args));
 }
 
@@ -59,6 +56,7 @@ void GpuClockController::reset_clocks()
                     .arg(current_gpu_->get_index())
                     .arg(pstate)
                     .arg(0));
+
         args.append(QStringLiteral("-a"));
         args.append(QString{NVIDIA_SETTINGS_MEM_CLOCK_OFFSET}
                     .arg(current_gpu_->get_index())
