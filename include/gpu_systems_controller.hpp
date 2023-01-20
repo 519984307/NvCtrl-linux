@@ -7,6 +7,8 @@
 #include "gpu_power_controller.hpp"
 #include "gpu_utilizations_controller.hpp"
 
+#include "nlohmann/json.hpp"
+
 class GpuSystemsController final : public QObject
 {
     Q_OBJECT
@@ -16,6 +18,10 @@ public:
 
     void set_current_gpu(NVMLpp::NVML_device* current_gpu);
     void update_info();
+
+    void set_fan_speed(unsigned value);
+    void set_power_limit(unsigned value);
+    void set_current_clock_profile(const nlohmann::json& clock_profile);
 
 signals:
     void fan_info_ready(const GpuFanController::fan_rates& fan_rates);

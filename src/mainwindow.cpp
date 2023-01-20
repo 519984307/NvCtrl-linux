@@ -33,14 +33,14 @@ MainWindow::MainWindow(nlohmann::json&& app_settings, QWidget* parent)
     , edit_clock_offset_profile_dialog_window_ {this}
     , recent_update_dialog_window_ {this}
     , gpu_processes_overview_dialog_window_ {this}
-    , update_checker_thread_ {new UpdateChecker, [](UpdateChecker* thread) { thread->quit(); }}
+    , update_checker_thread_ {new UpdateChecker, [](UpdateChecker* const thread) { thread->quit(); }}
     , dbus_message_receiver_ {NvCtrl::config::APP_DBUS_SERVICE_NAME, this}
 {
     ui->setupUi(this);
     setMinimumSize(size());
 
     {
-        MeasureTime startup_time {"Starting application...", "Startup complete: {:.3f}ms"};
+        MeasureTime startup_time {"Starting application...", "Startup complete: {:.3f} ms"};
         spdlog::info("----------------------------------------");
 
         setWindowIcon(QIcon{":/icons/NvCtrl.png"});
@@ -338,14 +338,10 @@ void MainWindow::on_comboBox_select_clock_offset_profile_activated(int index)
     if (index > CLOCK_PROFILE_NONE)
     {
         ui->pushButton_edit_current_clock_offset_profile->setEnabled(true);
-        const auto& current_clock_profile = app_settings_["clock_offset_profiles"][index];
-        gpu_clock_controller_.load_profile(&current_clock_profile);
-        update_clock_offset_widgets(current_clock_profile);
     }
     else
     {
         ui->pushButton_edit_current_clock_offset_profile->setEnabled(false);
-        update_clock_offset_widgets(0, 0);
     }
 
     qInfo().noquote().nospace() << "Selected clock offset profile: " << ui->comboBox_select_clock_offset_profile->currentText();
@@ -430,12 +426,11 @@ void MainWindow::set_max_clock_values(int gpu_clock_offset, int mem_clock_offset
 
 void MainWindow::update_clock_offset_widgets(int gpu_clock_offset, int mem_clock_offset) const
 {
-    const auto set_value {[](QSpinBox* const spinbox, int value) { spinbox->setValue(value); }};
+    static const auto set_value {[](QSpinBox* const spinbox, int value) { spinbox->setValue(value); }};
     const auto& [spin_boxes_gpu_offset, spin_boxes_memory_offset] {get_clock_offset_widgets()};
 
     std::for_each(spin_boxes_gpu_offset.begin(), spin_boxes_gpu_offset.end(),
                   std::bind(set_value, std::placeholders::_1, gpu_clock_offset));
-
     std::for_each(spin_boxes_memory_offset.begin(), spin_boxes_memory_offset.end(),
                   std::bind(set_value, std::placeholders::_1, mem_clock_offset));
 }
@@ -492,9 +487,11 @@ const std::pair<std::vector<QSpinBox*>, std::vector<QSpinBox*>>& MainWindow::get
                     ui->spinBox_pstate7_mem_offset
         },
     };
-    const auto reset {[](QSpinBox* const spinbox) { spinbox->setValue(0); }};
-    std::for_each(widgets_list.first.begin(), widgets_list.first.end(), reset);
-    std::for_each(widgets_list.second.begin(), widgets_list.second.end(), reset);
+    static const auto reset_values {[](QSpinBox* const spinbox) { spinbox->setValue(0); }};
+
+    std::for_each(widgets_list.first.begin(), widgets_list.first.end(), reset_values);
+    std::for_each(widgets_list.second.begin(), widgets_list.second.end(), reset_values);
+
     return widgets_list;
 }
 
@@ -612,14 +609,19 @@ void MainWindow::on_pushButton_add_new_clock_offset_profile_clicked()
 void MainWindow::on_pushButton_apply_clock_offset_clicked()
 {
     const unsigned index {static_cast<unsigned>(ui->comboBox_select_clock_offset_profile->currentIndex())};
+    const auto& current_clock_profile = app_settings_["clock_offset_profiles"][index];
+
     if (index > CLOCK_PROFILE_NONE)
     {
-        gpu_clock_controller_.apply_current_clock_profile();
+        gpu_clock_controller_.apply_clock_profile(current_clock_profile);
+        update_clock_offset_widgets(current_clock_profile);
     }
     else
     {
         gpu_clock_controller_.reset_clocks();
+        update_clock_offset_widgets(0, 0);
     }
+
     set_max_clock_values();
 
     ui->statusBar->showMessage("Clock profile applied: " + ui->comboBox_select_clock_offset_profile->currentText(), 2000);
@@ -789,23 +791,20 @@ void MainWindow::load_app_settings()
 
 void MainWindow::load_fan_and_clock_offset_profiles()
 {
+    static const auto load_profile {
+        [](QComboBox* const widget, const nlohmann::json& profile) {
+            widget->addItem(QString::fromStdString(profile["name"].get<std::string>()));
+        }
+    };
     const auto& clock_offset_profiles = app_settings_["clock_offset_profiles"];
     const auto& fan_speed_profiles = app_settings_["fan_speed_profiles"];
 
-    for (const auto& clock_profile : clock_offset_profiles)
-    {
-        ui->comboBox_select_clock_offset_profile->addItem(QString::fromStdString(
-                                                              clock_profile["name"].get<std::string>()
-                                                          ));
-    }
-    qInfo().noquote().nospace() << "Total clock offset profiles loaded: " << clock_offset_profiles.size();
+    std::for_each(clock_offset_profiles.begin(), clock_offset_profiles.end(),
+                  std::bind(load_profile, ui->comboBox_select_clock_offset_profile, std::placeholders::_1));
+    std::for_each(fan_speed_profiles.begin(), fan_speed_profiles.end(),
+                  std::bind(load_profile, ui->comboBox_select_fan_profile, std::placeholders::_1));
 
-    for (const auto& fan_profile : fan_speed_profiles)
-    {
-        ui->comboBox_select_fan_profile->addItem(QString::fromStdString(
-                                                     fan_profile["name"].get<std::string>()
-                                                 ));
-    }
+    qInfo().noquote().nospace() << "Total clock offset profiles loaded: " << clock_offset_profiles.size();
     qInfo().noquote().nospace() << "Total fan profiles loaded: " << fan_speed_profiles.size();
 }
 
