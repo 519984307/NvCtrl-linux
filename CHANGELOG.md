@@ -3,9 +3,9 @@
 * Updated submodules (spdlog)
 * Fixed AppImage generation script
 ### Download
-Download source code [for version 1.4.41](https://codeberg.org/AlexCr4ckPentest/NvCtrl-linux/tag/v1.4.41)
+Download source code [for version 1.4.41](https://codeberg.org/AlexCr4ckPentest/NvCtrl-linux/releases/tag/v1.4.41)
 
-Download AppImage file [for version 1.4.41](https://codeberg.org/AlexCr4ckPentest/NvCtrl-linux/tag/v1.4.41)
+Download AppImage file [for version 1.4.41](https://codeberg.org/AlexCr4ckPentest/NvCtrl-linux/releases/tag/v1.4.41)
 
 ## Version 1.4.40 (pre-release (UNSTABLE))
 ### Changes and fixes
@@ -17,13 +17,13 @@ Download AppImage file [for version 1.4.41](https://codeberg.org/AlexCr4ckPentes
 * Clock profile values now shows only when profile applied
 * Other internal changes and fixes
 ### Download
-Download source code [for version 1.4.40](https://codeberg.org/AlexCr4ckPentest/NvCtrl-linux/tag/v1.4.40)
+Download source code [for version 1.4.40](https://codeberg.org/AlexCr4ckPentest/NvCtrl-linux/releases/tag/v1.4.40)
 
 ## Version 1.4.38 (pre-release (UNSTABLE))
 ### Changes and fixes
 * Update submodules (NVMLpp, spdlog)
 ### Download
-Download source code [for version 1.4.38](https://codeberg.org/AlexCr4ckPentest/NvCtrl-linux/tag/v1.4.38)
+Download source code [for version 1.4.38](https://codeberg.org/AlexCr4ckPentest/NvCtrl-linux/releases/tag/v1.4.38)
 
 ## Version 1.4.37 (release)
 ### Changes and fixes
@@ -37,13 +37,13 @@ Download source code [for version 1.4.38](https://codeberg.org/AlexCr4ckPentest/
 * Fixed curl binary for win32
 * Refactored AppImage packing (add runtime)
 ### Download
-Download source code [for version 1.4.37](https://codeberg.org/AlexCr4ckPentest/NvCtrl-linux/tag/v1.4.37)
+Download source code [for version 1.4.37](https://codeberg.org/AlexCr4ckPentest/NvCtrl-linux/releases/tag/v1.4.37)
 
 ## Version 1.4.36 (pre-release (UNSTABLE))
 ### Changes and fixes
 * Fixed double message about fan profile creation
 ### Download
-Download source code [for version 1.4.36](https://codeberg.org/AlexCr4ckPentest/NvCtrl-linux/tag/v1.4.36)
+Download source code [for version 1.4.36](https://codeberg.org/AlexCr4ckPentest/NvCtrl-linux/releases/tag/v1.4.36)
 
 ## Version 1.4.35 (pre-release (UNSTABLE))
 ### Changes and fixes
@@ -51,13 +51,13 @@ Download source code [for version 1.4.36](https://codeberg.org/AlexCr4ckPentest/
 * Updated submodules (spdlog)
 * Fixed warning with LTO
 ### Download
-Download source code [for version 1.4.35](https://codeberg.org/AlexCr4ckPentest/NvCtrl-linux/tag/v1.4.35)
+Download source code [for version 1.4.35](https://codeberg.org/AlexCr4ckPentest/NvCtrl-linux/releases/tag/v1.4.35)
 
 ## Version 1.4.34 (pre-release (UNSTABLE))
 ### Changes and fixes
 * Removed all AppImages (refactoring structure)
 ### Download
-Download source code [for version 1.4.34](https://codeberg.org/AlexCr4ckPentest/NvCtrl-linux/tag/v1.4.34)
+Download source code [for version 1.4.34](https://codeberg.org/AlexCr4ckPentest/NvCtrl-linux/releases/tag/v1.4.34)
 
 ## Version 1.4.33 (pre-release (UNSTABLE))
 ### Changes and fixes
@@ -66,13 +66,13 @@ Download source code [for version 1.4.34](https://codeberg.org/AlexCr4ckPentest/
 * Fixed endless recursion in NVMLpp library
 * Fixed curl binary for win32
 ### Download
-Download source code [for version 1.4.33](https://codeberg.org/AlexCr4ckPentest/NvCtrl-linux/tag/v1.4.33)
+Download source code [for version 1.4.33](https://codeberg.org/AlexCr4ckPentest/NvCtrl-linux/releases/tag/v1.4.33)
 
 ## Version 1.4.31 (release)
 ### Changes and fixes
 * Values now doesn\`t update when window is hidden (doesn\`t utilize much more CPU time when hidden)
 ### Download
-Download source code [for version 1.4.31](https://codeberg.org/AlexCr4ckPentest/NvCtrl-linux/tag/v1.4.31)
+Download source code [for version 1.4.31](https://codeberg.org/AlexCr4ckPentest/NvCtrl-linux/releases/tag/v1.4.31)
 
 ## Version 1.4.30 (release)
 ### Changes and fixes
@@ -81,26 +81,26 @@ Download source code [for version 1.4.31](https://codeberg.org/AlexCr4ckPentest/
 * All \*Controllers classes (and other classes) now marked as final
 * Explicit QString creating replased by QStringLiteral to avoid allocations
 ### Download
-Download source code [for version 1.4.30](https://codeberg.org/AlexCr4ckPentest/NvCtrl-linux/tag/v1.4.30)
+Download source code [for version 1.4.30](https://codeberg.org/AlexCr4ckPentest/NvCtrl-linux/releases/tag/v1.4.30)
 
 ## Version 1.4.26 (release)
 ### Changes and fixes
 * Static linking with libstdc++ and libgcc
 ### Download
-Download source code [for version 1.4.26](https://codeberg.org/AlexCr4ckPentest/NvCtrl-linux/tag/v1.4.26)
+Download source code [for version 1.4.26](https://codeberg.org/AlexCr4ckPentest/NvCtrl-linux/releases/tag/v1.4.26)
 
 ## Version 1.4.25 (release)
 ### Changes and fixes
 * Changed changelog URL, fixed "temporarily redirected" error when trying to get changelog
 ### Download
-Download source code [for version 1.4.25](https://codeberg.org/AlexCr4ckPentest/NvCtrl-linux/tag/v1.4.25)
+Download source code [for version 1.4.25](https://codeberg.org/AlexCr4ckPentest/NvCtrl-linux/releases/tag/v1.4.25)
 
 ## Version 1.4.24 (release)
 ### Changes and fixes
 * Updated submodules (spdlog lib)
 * Using LTO (link time optimizations) by default (via cmake_cxx_flags)
 ### Download
-Download source code [for version 1.4.24](https://codeberg.org/AlexCr4ckPentest/NvCtrl-linux/tag/v1.4.24)
+Download source code [for version 1.4.24](https://codeberg.org/AlexCr4ckPentest/NvCtrl-linux/releases/tag/v1.4.24)
 
 ## Version 1.4.23 (release)
 ### Changes and fixes
@@ -108,21 +108,21 @@ Download source code [for version 1.4.24](https://codeberg.org/AlexCr4ckPentest/
 * Updated build and appimage generate scripts
 * Updated submodules
 ### Download
-Download source code[for version 1.4.23](https://codeberg.org/AlexCr4ckPentest/NvCtrl-linux/tag/v1.4.23)
+Download source code[for version 1.4.23](https://codeberg.org/AlexCr4ckPentest/NvCtrl-linux/releases/tag/v1.4.23)
 
 ## Version 1.4.22 (release)
 ### Changes and fixes
 * Added build and install shell scripts for native build
 * Internal changes
 ### Download
-Download source code [for version 1.4.22](https://codeberg.org/AlexCr4ckPentest/NvCtrl-linux/tag/v1.4.22)
+Download source code [for version 1.4.22](https://codeberg.org/AlexCr4ckPentest/NvCtrl-linux/releases/tag/v1.4.22)
 
 ## Version 1.4.21 (release)
 ### Changes and fixes
 * Update submodules: update NVMLpp to version 525.60.11
 * Some internal changes
 ### Download
-Download source code [for version 1.4.21](https://codeberg.org/AlexCr4ckPentest/NvCtrl-linux/tag/v1.4.21)
+Download source code [for version 1.4.21](https://codeberg.org/AlexCr4ckPentest/NvCtrl-linux/releases/tag/v1.4.21)
 
 ## Version 1.4.19 (release)
 ### Changes and fixes
@@ -133,7 +133,7 @@ Download source code [for version 1.4.21](https://codeberg.org/AlexCr4ckPentest/
 * Updated AppImage build script
 * Renamed .AppDir folder
 ### Download
-Download source code [for version 1.4.19](https://codeberg.org/AlexCr4ckPentest/NvCtrl-linux/tag/v1.4.19)
+Download source code [for version 1.4.19](https://codeberg.org/AlexCr4ckPentest/NvCtrl-linux/releases/tag/v1.4.19)
 
 ## Version 1.4.16 (release)
 ### Changes and fixes
