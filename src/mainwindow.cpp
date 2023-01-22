@@ -20,10 +20,7 @@ MainWindow::MainWindow(nlohmann::json&& app_settings, QWidget* parent)
     , dynamic_info_update_timer_ {}
     , nvmlpp_session_ {NVMLpp::Session::instance()}
     , current_gpu_ {NVMLpp::NVML_device::from_index(0)}
-    , gpu_utilizations_controller_ {this}
-    , gpu_power_controller_ {this}
-    , gpu_clock_controller_ {this}
-    , gpu_fan_controller_ {this}
+    , gpu_systems_controller_ {}
     , settings_dialog_window_ {this}
     , about_dialog_window_ {this}
     , report_a_bug_dialog_window_ {this}
@@ -53,7 +50,7 @@ MainWindow::MainWindow(nlohmann::json&& app_settings, QWidget* parent)
         set_current_gpu_for_controllers();
         load_app_settings();
 
-        update_dynamic_info();
+        gpu_systems_controller_.update_info();
         dynamic_info_update_timer_.start();
     }
     spdlog::info("----------------------------------------");
@@ -80,16 +77,6 @@ void MainWindow::toggle_tray()
         hide();
         tray_icon_.show();
     }
-}
-
-
-
-void MainWindow::update_dynamic_info()
-{
-    gpu_utilizations_controller_.update_info();
-    gpu_power_controller_.update_info();
-    gpu_clock_controller_.update_info();
-    gpu_fan_controller_.update_info();
 }
 
 
@@ -250,8 +237,8 @@ void MainWindow::on_GpuUtilizationsController_encoder_decoder_unsupported()
 
 void MainWindow::on_GpuPowerController_error_occured()
 {
-    disconnect(&gpu_power_controller_, &GpuPowerController::error_occured, this, &MainWindow::on_GpuPowerController_error_occured);
-    disconnect(&gpu_power_controller_, &GpuPowerController::info_ready, this, &MainWindow::on_GpuPowerController_info_ready);
+    disconnect(&gpu_systems_controller_, &GpuSystemsController::power_controller_error, this, &MainWindow::on_GpuPowerController_error_occured);
+    disconnect(&gpu_systems_controller_, &GpuSystemsController::power_info_ready, this, &MainWindow::on_GpuPowerController_info_ready);
     qWarning().noquote().nospace() << "Power control unsupported, signals disconnected";
 }
 
@@ -259,8 +246,8 @@ void MainWindow::on_GpuPowerController_error_occured()
 
 void MainWindow::on_GpuClockController_error_occured()
 {
-    disconnect(&gpu_clock_controller_, &GpuClockController::error_occured, this, &MainWindow::on_GpuClockController_error_occured);
-    disconnect(&gpu_clock_controller_, &GpuClockController::info_ready, this, &MainWindow::on_GpuClockController_info_ready);
+    disconnect(&gpu_systems_controller_, &GpuSystemsController::clock_controller_error, this, &MainWindow::on_GpuClockController_error_occured);
+    disconnect(&gpu_systems_controller_, &GpuSystemsController::clock_info_ready, this, &MainWindow::on_GpuClockController_info_ready);
     qWarning().noquote().nospace() << "Clock control unsupported, signals disconnected";
 }
 
@@ -272,8 +259,8 @@ void MainWindow::on_GpuFanController_error_occured()
     ui->groupBox_fan_control->setToolTip(QStringLiteral("Unsupported for current GPU"));
     qWarning().noquote().nospace() << "Fan control unsupported, groupBox widget disabled";
 
-    disconnect(&gpu_fan_controller_, &GpuFanController::error_occured, this, &MainWindow::on_GpuFanController_error_occured);
-    disconnect(&gpu_fan_controller_, &GpuFanController::info_ready, this, &MainWindow::on_GpuFanController_info_ready);
+    disconnect(&gpu_systems_controller_, &GpuSystemsController::fan_controller_error, this, &MainWindow::on_GpuFanController_error_occured);
+    disconnect(&gpu_systems_controller_, &GpuSystemsController::fan_info_ready, this, &MainWindow::on_GpuFanController_info_ready);
 
     qWarning().noquote().nospace() << "Fan control unsupported, signals disconnected";
 }
@@ -319,12 +306,12 @@ void MainWindow::on_comboBox_select_fan_profile_activated(int index)
 {
     if (index > FAN_PROFILE_AUTO)
     {
-        gpu_fan_controller_.set_fan_control_state(true);
+        gpu_systems_controller_.set_fan_control_state(true);
         ui->pushButton_edit_current_fan_profile->setEnabled(true);
     }
     else
     {
-        gpu_fan_controller_.set_fan_control_state(false);
+        gpu_systems_controller_.set_fan_control_state(false);
         ui->pushButton_edit_current_fan_profile->setEnabled(false);
     }
 
@@ -406,10 +393,7 @@ void MainWindow::set_static_info()
 
 void MainWindow::set_current_gpu_for_controllers() noexcept
 {
-    gpu_utilizations_controller_.set_device(&current_gpu_);
-    gpu_power_controller_.set_device(&current_gpu_);
-    gpu_clock_controller_.set_device(&current_gpu_);
-    gpu_fan_controller_.set_device(&current_gpu_);
+    gpu_systems_controller_.set_current_gpu(&current_gpu_);
 }
 
 
@@ -539,7 +523,7 @@ void MainWindow::closeEvent(QCloseEvent* close_event)
 
 void MainWindow::hideEvent(QHideEvent* hide_event)
 {
-    disconnect(&dynamic_info_update_timer_, &QTimer::timeout, this, &MainWindow::update_dynamic_info);
+    disconnect(&dynamic_info_update_timer_, &QTimer::timeout, &gpu_systems_controller_, &GpuSystemsController::update_info);
     hide_event->accept();
 }
 
@@ -547,7 +531,7 @@ void MainWindow::hideEvent(QHideEvent* hide_event)
 
 void MainWindow::showEvent(QShowEvent* show_event)
 {
-    connect(&dynamic_info_update_timer_, &QTimer::timeout, this, &MainWindow::update_dynamic_info);
+    connect(&dynamic_info_update_timer_, &QTimer::timeout, &gpu_systems_controller_, &GpuSystemsController::update_info);
     show_event->accept();
 }
 
@@ -557,7 +541,7 @@ void MainWindow::on_pushButton_apply_power_limit_clicked()
 {
     const unsigned power_limit_value {static_cast<unsigned>(ui->horizontalSlider_change_power_limit->value())};
 
-    gpu_power_controller_.set_power_limit(power_limit_value);
+    gpu_systems_controller_.set_power_limit(power_limit_value);
     ui->statusBar->showMessage("Power limit applied: " + QString::number(power_limit_value) + "W", 2000);
     qInfo().noquote().nospace() << "Power limit applied: " << power_limit_value;
 }
@@ -571,7 +555,7 @@ void MainWindow::on_pushButton_apply_fan_speed_clicked()
     {
         const auto& current_fan_profile = app_settings_["fan_speed_profiles"][index];
         const unsigned fan_speed_level {current_fan_profile["fan_speed"].get<unsigned>()};
-        gpu_fan_controller_.set_fan_speed(fan_speed_level);
+        gpu_systems_controller_.set_fan_speed(fan_speed_level);
     }
 
     ui->statusBar->showMessage("Fan profile applied: " + ui->comboBox_select_fan_profile->currentText(), 2000);
@@ -613,12 +597,12 @@ void MainWindow::on_pushButton_apply_clock_offset_clicked()
 
     if (index > CLOCK_PROFILE_NONE)
     {
-        gpu_clock_controller_.apply_clock_profile(current_clock_profile);
+        gpu_systems_controller_.set_current_clock_profile(current_clock_profile);
         update_clock_offset_widgets(current_clock_profile);
     }
     else
     {
-        gpu_clock_controller_.reset_clocks();
+        gpu_systems_controller_.reset_clocks();
         update_clock_offset_widgets(0, 0);
     }
 
@@ -719,23 +703,22 @@ void MainWindow::connect_slots_and_signals()
         ui->label_power_limit_slider_indicator->setText(QString::number(value));
     });
 
-    connect(&gpu_utilizations_controller_, &GpuUtilizationsController::info_ready, this,
-            &MainWindow::on_GpuUtilizationsController_info_ready);
-    connect(&gpu_power_controller_, &GpuPowerController::info_ready, this, &MainWindow::on_GpuPowerController_info_ready);
-    connect(&gpu_clock_controller_, &GpuClockController::info_ready, this, &MainWindow::on_GpuClockController_info_ready);
-    connect(&gpu_fan_controller_, &GpuFanController::info_ready, this, &MainWindow::on_GpuFanController_info_ready);
+    connect(&gpu_systems_controller_, &GpuSystemsController::utilization_info_ready, this, &MainWindow::on_GpuUtilizationsController_info_ready);
+    connect(&gpu_systems_controller_, &GpuSystemsController::power_info_ready, this, &MainWindow::on_GpuPowerController_info_ready);
+    connect(&gpu_systems_controller_, &GpuSystemsController::clock_info_ready, this, &MainWindow::on_GpuClockController_info_ready);
+    connect(&gpu_systems_controller_, &GpuSystemsController::fan_info_ready, this, &MainWindow::on_GpuFanController_info_ready);
 
-    connect(&gpu_utilizations_controller_, &GpuUtilizationsController::encoder_decoder_unsupported, this,
-            &MainWindow::on_GpuUtilizationsController_encoder_decoder_unsupported);
-    connect(&gpu_power_controller_, &GpuPowerController::error_occured, this, &MainWindow::on_GpuPowerController_error_occured);
-    connect(&gpu_clock_controller_, &GpuClockController::error_occured, this, &MainWindow::on_GpuClockController_error_occured);
-    connect(&gpu_fan_controller_, &GpuFanController::error_occured, this, &MainWindow::on_GpuFanController_error_occured);
+    connect(&gpu_systems_controller_, &GpuSystemsController::power_controller_error, this, &MainWindow::on_GpuPowerController_error_occured);
+    connect(&gpu_systems_controller_, &GpuSystemsController::clock_controller_error, this, &MainWindow::on_GpuClockController_error_occured);
+    connect(&gpu_systems_controller_, &GpuSystemsController::fan_controller_error, this, &MainWindow::on_GpuFanController_error_occured);
+    connect(&gpu_systems_controller_, &GpuSystemsController::utilization_controller_encoder_unsupported,
+            this, &MainWindow::on_GpuUtilizationsController_encoder_decoder_unsupported);
 
     connect(update_checker_thread_.get(), &UpdateChecker::new_version_released, this, &MainWindow::on_UpdateChecker_new_version_released);
     connect(update_checker_thread_.get(), &UpdateChecker::update_not_found, this, &MainWindow::on_UpdateChecker_update_not_found);
     connect(update_checker_thread_.get(), &UpdateChecker::error_occured, this, &MainWindow::on_UpdateChecker_error_occured);
 
-    connect(&dynamic_info_update_timer_, &QTimer::timeout, this, &MainWindow::update_dynamic_info);
+    connect(&dynamic_info_update_timer_, &QTimer::timeout, &gpu_systems_controller_, &GpuSystemsController::update_info);
     connect(&dbus_message_receiver_, &DBusReceiver::message_received, [this]()
     {
         if (isHidden() || isMinimized())

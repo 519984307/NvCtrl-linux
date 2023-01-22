@@ -10,11 +10,6 @@
 
 #include "gpu_systems_controller.hpp"
 
-#include "gpu_utilizations_controller.hpp"
-#include "gpu_power_controller.hpp"
-#include "gpu_clock_controller.hpp"
-#include "gpu_fan_controller.hpp"
-
 #include "settings_dialog.hpp"
 #include "about_dialog.hpp"
 #include "report_a_bug_dialog.hpp"
@@ -47,7 +42,6 @@ public:
 
 private slots:
     void toggle_tray();
-    void update_dynamic_info();
 
     void on_SettingsDialog_settings_applied(const nlohmann::json& app_settings);
     void on_FanProfileDialog_new_profile_created(const nlohmann::json& curr_fan_profile);
@@ -104,11 +98,7 @@ private:
     nlohmann::json app_settings_;
     NVMLpp::Session& nvmlpp_session_;
     NVMLpp::NVML_device current_gpu_;
-
-    GpuUtilizationsController gpu_utilizations_controller_;
-    GpuPowerController gpu_power_controller_;
-    GpuClockController gpu_clock_controller_;
-    GpuFanController gpu_fan_controller_;
+    GpuSystemsController gpu_systems_controller_;
 
     SettingsDialog settings_dialog_window_;
     AboutDialog about_dialog_window_;

@@ -20,8 +20,12 @@ public:
     void update_info();
 
     void set_fan_speed(unsigned value);
+    void set_fan_control_state(bool enabled);
+
     void set_power_limit(unsigned value);
+
     void set_current_clock_profile(const nlohmann::json& clock_profile);
+    void reset_clocks();
 
 signals:
     void fan_info_ready(const GpuFanController::fan_rates& fan_rates);

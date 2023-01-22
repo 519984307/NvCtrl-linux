@@ -16,10 +16,10 @@ GpuSystemsController::GpuSystemsController(QObject* parent)
     connect(&power_controller_, &GpuPowerController::info_ready, this, &GpuSystemsController::on_GpuPowerController_info_ready);
     connect(&power_controller_, &GpuPowerController::error_occured, this, &GpuSystemsController::on_GpuPowerController_error_occured);
 
-    connect(&utilizations_controller_, &GpuUtilizationsController::info_ready, this,
-            &GpuSystemsController::on_GpuUtilizationsController_info_ready);
-    connect(&utilizations_controller_, &GpuUtilizationsController::encoder_decoder_unsupported, this,
-            &GpuSystemsController::on_GpuUtilizationsController_encoder_decoder_unsupported);
+    connect(&utilizations_controller_, &GpuUtilizationsController::info_ready,
+            this, &GpuSystemsController::on_GpuUtilizationsController_info_ready);
+    connect(&utilizations_controller_, &GpuUtilizationsController::encoder_decoder_unsupported,
+            this, &GpuSystemsController::on_GpuUtilizationsController_encoder_decoder_unsupported);
 }
 
 
@@ -51,6 +51,13 @@ void GpuSystemsController::set_fan_speed(unsigned value)
 
 
 
+void GpuSystemsController::set_fan_control_state(bool enabled)
+{
+    fan_controller_.set_fan_control_state(enabled);
+}
+
+
+
 void GpuSystemsController::set_power_limit(unsigned value)
 {
     power_controller_.set_power_limit(value);
@@ -61,6 +68,13 @@ void GpuSystemsController::set_power_limit(unsigned value)
 void GpuSystemsController::set_current_clock_profile(const nlohmann::json& clock_profile)
 {
     clock_controller_.apply_clock_profile(clock_profile);
+}
+
+
+
+void GpuSystemsController::reset_clocks()
+{
+    clock_controller_.reset_clocks();
 }
 
 
