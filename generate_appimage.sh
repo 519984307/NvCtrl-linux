@@ -16,6 +16,16 @@ then
   mkdir $APP_DIR
   mkdir -p $APP_DIR/usr/bin
   mkdir -p $APP_DIR/usr/lib
+  mkdir $APP_DIR/usr/bin/platforms
+  mkdir $APP_DIR/usr/bin/imageformats
+  mkdir $APP_DIR/usr/bin/styles
+  mkdir $APP_DIR/usr/bin/iconengines
+
+  cp /usr/lib/qt/plugins/platforms/* $APP_DIR/usr/bin/platforms/.
+  cp /usr/lib/qt/plugins/imageformats/libqjpeg.so $APP_DIR/usr/bin/imageformats/.
+  cp /usr/lib/qt/plugins/imageformats/libqico.so $APP_DIR/usr/bin/imageformats/.
+  cp /usr/lib/qt/plugins/styles/breeze.so $APP_DIR/usr/bin/styles/.
+  cp /usr/lib/qt/plugins/iconengines/libqsvgicon.so $APP_DIR/usr/bin/iconengines/.
 
   cp ./res/appimage/NvCtrl-Linux.desktop $APP_DIR/.
   cp ./res/appimage/AppRun $APP_DIR/.
