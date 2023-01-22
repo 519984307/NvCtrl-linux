@@ -1,3 +1,12 @@
+## Version 1.4.41 (pre-release (UNSTABLE))
+### Changes and fixes
+* Updated submodules (spdlog)
+* Fixed AppImage generation script
+### Download
+Download source code [for version 1.4.41](https://codeberg.org/AlexCr4ckPentest/NvCtrl-linux/tag/v1.4.41)
+
+Download AppImage file [for version 1.4.41](https://codeberg.org/AlexCr4ckPentest/NvCtrl-linux/tag/v1.4.41)
+
 ## Version 1.4.40 (pre-release (UNSTABLE))
 ### Changes and fixes
 * Changed method GpuClockController::apply_clock_profile:
