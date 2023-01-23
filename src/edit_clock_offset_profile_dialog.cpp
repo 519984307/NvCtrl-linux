@@ -96,7 +96,7 @@ void EditClockOffsetProfileDialog::on_buttonBox_rejected()
 
 void EditClockOffsetProfileDialog::showEvent(QShowEvent* show_event)
 {
-    const auto set_values_on_widgets {
+    static const auto set_values_on_widgets {
         [](auto& widgets, const nlohmann::json& values) {
             const auto& [pstate_num, offset] {values.get<std::pair<int, int>>()};
             auto& [check_box, slider, spin_box] {widgets[pstate_num]};
@@ -144,7 +144,7 @@ void EditClockOffsetProfileDialog::on_pushButton_remove_current_profile_clicked(
 
 void EditClockOffsetProfileDialog::connect_signals_and_slots()
 {
-    const auto connect_signals {
+    static const auto connect_signals {
         [](const auto& widgets) {
             const auto& [check_box, slider, spin_box] {widgets};
             connect(check_box, &QCheckBox::clicked, slider, &QSlider::setEnabled);
@@ -161,7 +161,7 @@ void EditClockOffsetProfileDialog::connect_signals_and_slots()
 
 void EditClockOffsetProfileDialog::reset_on_form_widgets()
 {
-    const auto clear_widgets {
+    static const auto clear_widgets {
         [](const auto& widgets) {
             const auto& [check_box, slider, spin_box] {widgets};
             slider->setValue(0);

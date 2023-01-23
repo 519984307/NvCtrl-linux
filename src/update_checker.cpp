@@ -61,26 +61,13 @@ void UpdateChecker::run()
     }
     else
     {
-        const auto last_app_version {retrieve_last_ver_process_.readAll().trimmed().split('.')};
-        const auto current_app_version {QString{NvCtrl::config::APP_VERSION_STRING}.split('.')};
-        const int last_major {last_app_version[MAJOR_VER].toInt()};
-        const int last_minor {last_app_version[MINOR_VER].toInt()};
-        const int last_patch {last_app_version[PATCH_VER].toInt()};
-        const int current_major {current_app_version[MAJOR_VER].toInt()};
-        const int current_minor {current_app_version[MINOR_VER].toInt()};
-        const int current_patch {current_app_version[PATCH_VER].toInt()};
+        const QString last_version {retrieve_last_ver_process_.readAll().trimmed()};
+        const QString current_version {NvCtrl::config::APP_VERSION_STRING};
 
-        const auto& joined_ver {last_app_version.join('.')};
-        qDebug().noquote().nospace() << "Retrieved ver: v" << joined_ver
-                                     << ", current: v" << NvCtrl::config::APP_VERSION_STRING;
-
-        if (last_patch > current_patch ||
-                last_minor > current_minor ||
-                last_major > current_major)
+        if (last_version > current_version)
         {
-            qInfo().noquote().nospace() << "New update: v" << joined_ver
-                                        << " (current: v" << NvCtrl::config::APP_VERSION_STRING << ")";
-            emit new_version_released(joined_ver);
+            qInfo().noquote().nospace() << "New update: v" << last_version;
+            emit new_version_released(last_version);
         }
         else
         {

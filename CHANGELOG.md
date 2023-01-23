@@ -1,3 +1,13 @@
+## Version 1.5.3 (pre-release (UNSTABLE))
+### Changes and fixes
+* Critical: fixed bug in update checker
+* Replace some std::for_each() with raw for loops (for readability)
+* Marked some lambda\`s as static
+### Download
+Download source code [for version 1.5.3](https://codeberg.org/AlexCr4ckPentest/NvCtrl-linux/releases/tag/v1.5.3)
+
+Download AppImage file [for version 1.5.3](https://codeberg.org/AlexCr4ckPentest/NvCtrl-linux/releases/tag/v1.5.3)
+
 ## Version 1.5.0 (pre-release (UNSTABLE))
 ### Changes and fixes
 * Refactored MainWindow class

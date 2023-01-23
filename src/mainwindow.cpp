@@ -471,10 +471,16 @@ const std::pair<std::vector<QSpinBox*>, std::vector<QSpinBox*>>& MainWindow::get
                     ui->spinBox_pstate7_mem_offset
         },
     };
-    static const auto reset_values {[](QSpinBox* const spinbox) { spinbox->setValue(0); }};
 
-    std::for_each(widgets_list.first.begin(), widgets_list.first.end(), reset_values);
-    std::for_each(widgets_list.second.begin(), widgets_list.second.end(), reset_values);
+    for (const auto& spinbox : widgets_list.first)
+    {
+        spinbox->setValue(0);
+    }
+
+    for (const auto& spinbox: widgets_list.second)
+    {
+        spinbox->setValue(0);
+    }
 
     return widgets_list;
 }
@@ -497,11 +503,13 @@ void MainWindow::closeEvent(QCloseEvent* close_event)
             app_settings_["last_fan_profile_index"] = ui->comboBox_select_fan_profile->currentIndex();
             qInfo().noquote().nospace() << "Last fan profile saved";
         }
+
         if (last_clock_offset_profile_saved_)
         {
             app_settings_["last_clock_offset_profile_index"] = ui->comboBox_select_clock_offset_profile->currentIndex();
             qInfo().noquote().nospace() << "Last clock offset profile saved";
         }
+
         if (last_power_profile_saved_)
         {
             app_settings_["last_power_profile_value"] = ui->horizontalSlider_change_power_limit->value();
@@ -659,7 +667,7 @@ void MainWindow::on_actionShow_GPU_UUID_toggled(bool checked)
     if (checked)
     {
         ui->lineEdit_GPU_uuid->setText(QString::fromStdString(current_gpu_.get_uuid()));
-        ui->lineEdit_GPU_uuid->setToolTip(QLatin1String(""));
+        ui->lineEdit_GPU_uuid->setToolTip(QLatin1String{""});
     }
     else
     {
@@ -774,18 +782,22 @@ void MainWindow::load_app_settings()
 
 void MainWindow::load_fan_and_clock_offset_profiles()
 {
-    static const auto load_profile {
-        [](QComboBox* const widget, const nlohmann::json& profile) {
-            widget->addItem(QString::fromStdString(profile["name"].get<std::string>()));
-        }
-    };
     const auto& clock_offset_profiles = app_settings_["clock_offset_profiles"];
     const auto& fan_speed_profiles = app_settings_["fan_speed_profiles"];
 
-    std::for_each(clock_offset_profiles.begin(), clock_offset_profiles.end(),
-                  std::bind(load_profile, ui->comboBox_select_clock_offset_profile, std::placeholders::_1));
-    std::for_each(fan_speed_profiles.begin(), fan_speed_profiles.end(),
-                  std::bind(load_profile, ui->comboBox_select_fan_profile, std::placeholders::_1));
+    for (const auto& clock_profile : clock_offset_profiles)
+    {
+        ui->comboBox_select_clock_offset_profile->addItem(QString::fromStdString(
+                                                              clock_profile["name"].get<std::string>()
+                                                          ));
+    }
+
+    for (const auto& fan_profile : fan_speed_profiles)
+    {
+        ui->comboBox_select_fan_profile->addItem(QString::fromStdString(
+                                                     fan_profile["name"].get<std::string>()
+                                                 ));
+    }
 
     qInfo().noquote().nospace() << "Total clock offset profiles loaded: " << clock_offset_profiles.size();
     qInfo().noquote().nospace() << "Total fan profiles loaded: " << fan_speed_profiles.size();
