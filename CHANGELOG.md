@@ -1,3 +1,15 @@
+## Version 1.5.0 (pre-release (UNSTABLE))
+### Changes and fixes
+* Refactored MainWindow class
+* Unifiend all controllers into one class - GpuSystemsController
+* Removed some dead code
+* Resume AppImage builds
+* Other internal changes...
+### Download
+Download source code [for version 1.5.0](https://codeberg.org/AlexCr4ckPentest/NvCtrl-linux/releases/tag/v1.5.0)
+
+Download AppImage file [for version 1.5.0](https://codeberg.org/AlexCr4ckPentest/NvCtrl-linux/releases/tag/v1.5.0)
+
 ## Version 1.4.41 (pre-release (UNSTABLE))
 ### Changes and fixes
 * Updated submodules (spdlog)
