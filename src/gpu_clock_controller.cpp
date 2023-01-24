@@ -1,5 +1,3 @@
-#include <future>
-
 #include <QProcess>
 #include <QDebug>
 
@@ -25,21 +23,24 @@ void GpuClockController::apply_clock_profile(const nlohmann::json& clock_offset_
     const auto& mem_offsets = clock_offset_profile["offset_values"]["memory_offsets"];
 
     QStringList args {};
-    const auto construct_args_list {
+    const auto construct_arg_list {
         [&args, this](const char* attribute, const nlohmann::json& value) {
-            const auto [pstate, gpu_clock_offset] {value.get<std::pair<int, int>>()};
+            const auto [index, gpu_clock_offset] {value.get<std::pair<int, int>>()};
             args.append(QStringLiteral("-a"));
             args.append(QString{attribute}
                         .arg(current_gpu_->get_index())
-                        .arg(pstate)
+                        .arg(index)
                         .arg(gpu_clock_offset));
         }
     };
 
-    std::for_each(gpu_offsets.begin(), gpu_offsets.end(),
-                  std::bind(construct_args_list, NVIDIA_SETTINGS_GPU_CLOCK_OFFSET, std::placeholders::_1));
-    std::for_each(mem_offsets.begin(), mem_offsets.end(),
-                  std::bind(construct_args_list, NVIDIA_SETTINGS_MEM_CLOCK_OFFSET, std::placeholders::_1));
+    std::for_each(gpu_offsets.begin(), gpu_offsets.end(), [&construct_arg_list](const nlohmann::json& value) {
+        construct_arg_list(NVIDIA_SETTINGS_GPU_CLOCK_OFFSET, value);
+    });
+
+    std::for_each(mem_offsets.begin(), mem_offsets.end(), [&construct_arg_list](const nlohmann::json& value) {
+        construct_arg_list(NVIDIA_SETTINGS_MEM_CLOCK_OFFSET, value);
+    });
 
     run_nvidia_settings(std::move(args));
 }
@@ -90,7 +91,7 @@ void GpuClockController::update_info()
 
 void GpuClockController::run_nvidia_settings(QStringList&& args)
 {
-    auto err_code {QProcess::execute(NVIDIA_SETTINGS_BIN, std::forward<QStringList&&>(args))};
+    auto err_code {QProcess::execute(NVIDIA_SETTINGS_BIN, args)};
     if (err_code == 0)
     {
         qInfo().noquote().nospace() << "Options applied: " << args << " " << " for current gpu";
