@@ -47,7 +47,7 @@ MainWindow::MainWindow(nlohmann::json&& app_settings, QWidget* parent)
 
         set_static_info();
         connect_slots_and_signals();
-        set_current_gpu_for_controllers();
+        gpu_systems_controller_.set_current_gpu(&current_gpu_);
         load_app_settings();
 
         gpu_systems_controller_.update_info();
@@ -184,7 +184,7 @@ void MainWindow::on_EditClockOffsetProfileDialog_current_clock_offset_profile_re
 
 
 
-void MainWindow::on_GpuUtilizationsController_info_ready(const GpuUtilizationsController::utilization_rates& utilization_rates)
+void MainWindow::utilization_info_ready(const GpuUtilizationsController::utilization_rates& utilization_rates)
 {
     ui->progressBar_GPU_usage->setValue(utilization_rates.gpu);
     ui->progressBar_GPU_mem_usage->setValue(utilization_rates.mem);
@@ -197,7 +197,7 @@ void MainWindow::on_GpuUtilizationsController_info_ready(const GpuUtilizationsCo
 
 
 
-void MainWindow::on_GpuPowerController_info_ready(const GpuPowerController::power_rates& power_rates)
+void MainWindow::power_info_ready(const GpuPowerController::power_rates& power_rates)
 {
     ui->lineEdit_current_power_usage->setText(QString::number(power_rates.usage / 1000) + " W");
     ui->lineEdit_current_power_limit->setText(QString::number(power_rates.limit / 1000) + " W");
@@ -205,7 +205,7 @@ void MainWindow::on_GpuPowerController_info_ready(const GpuPowerController::powe
 
 
 
-void MainWindow::on_GpuClockController_info_ready(const GpuClockController::clock_values& clock_values)
+void MainWindow::clock_info_ready(const GpuClockController::clock_values& clock_values)
 {
     ui->lineEdit_graphics_clock_current->setText(QString::number(clock_values.graphics) + " MHz");
     ui->lineEdit_video_clock_current->setText(QString::number(clock_values.video) + " MHz");
@@ -215,14 +215,14 @@ void MainWindow::on_GpuClockController_info_ready(const GpuClockController::cloc
 
 
 
-void MainWindow::on_GpuFanController_info_ready(const GpuFanController::fan_rates& fan_rates)
+void MainWindow::fan_info_ready(const GpuFanController::fan_rates& fan_rates)
 {
     ui->progressBar_current_fan_speed_level->setValue(fan_rates.fan_speed_level);
 }
 
 
 
-void MainWindow::on_GpuUtilizationsController_encoder_decoder_unsupported()
+void MainWindow::utilization_encoder_decoder_unsupported()
 {
     if (ui->progressBar_GPU_encoder_usage->isEnabled() &&
             ui->progressBar_GPU_decoder_usage->isEnabled())
@@ -235,32 +235,32 @@ void MainWindow::on_GpuUtilizationsController_encoder_decoder_unsupported()
 
 
 
-void MainWindow::on_GpuPowerController_error_occured()
+void MainWindow::power_controller_error()
 {
-    disconnect(&gpu_systems_controller_, &GpuSystemsController::power_controller_error, this, &MainWindow::on_GpuPowerController_error_occured);
-    disconnect(&gpu_systems_controller_, &GpuSystemsController::power_info_ready, this, &MainWindow::on_GpuPowerController_info_ready);
+    disconnect(&gpu_systems_controller_, &GpuSystemsController::power_controller_error, this, &MainWindow::power_controller_error);
+    disconnect(&gpu_systems_controller_, &GpuSystemsController::power_info_ready, this, &MainWindow::power_info_ready);
     qWarning().noquote().nospace() << "Power control unsupported, signals disconnected";
 }
 
 
 
-void MainWindow::on_GpuClockController_error_occured()
+void MainWindow::clock_controller_error()
 {
-    disconnect(&gpu_systems_controller_, &GpuSystemsController::clock_controller_error, this, &MainWindow::on_GpuClockController_error_occured);
-    disconnect(&gpu_systems_controller_, &GpuSystemsController::clock_info_ready, this, &MainWindow::on_GpuClockController_info_ready);
+    disconnect(&gpu_systems_controller_, &GpuSystemsController::clock_controller_error, this, &MainWindow::clock_controller_error);
+    disconnect(&gpu_systems_controller_, &GpuSystemsController::clock_info_ready, this, &MainWindow::clock_info_ready);
     qWarning().noquote().nospace() << "Clock control unsupported, signals disconnected";
 }
 
 
 
-void MainWindow::on_GpuFanController_error_occured()
+void MainWindow::fan_controller_error()
 {
     ui->groupBox_fan_control->setEnabled(false);
     ui->groupBox_fan_control->setToolTip(QStringLiteral("Unsupported for current GPU"));
     qWarning().noquote().nospace() << "Fan control unsupported, groupBox widget disabled";
 
-    disconnect(&gpu_systems_controller_, &GpuSystemsController::fan_controller_error, this, &MainWindow::on_GpuFanController_error_occured);
-    disconnect(&gpu_systems_controller_, &GpuSystemsController::fan_info_ready, this, &MainWindow::on_GpuFanController_info_ready);
+    disconnect(&gpu_systems_controller_, &GpuSystemsController::fan_controller_error, this, &MainWindow::fan_controller_error);
+    disconnect(&gpu_systems_controller_, &GpuSystemsController::fan_info_ready, this, &MainWindow::fan_info_ready);
 
     qWarning().noquote().nospace() << "Fan control unsupported, signals disconnected";
 }
@@ -391,13 +391,6 @@ void MainWindow::set_static_info()
 
 
 
-void MainWindow::set_current_gpu_for_controllers() noexcept
-{
-    gpu_systems_controller_.set_current_gpu(&current_gpu_);
-}
-
-
-
 void MainWindow::set_max_clock_values(int gpu_clock_offset, int mem_clock_offset) const
 {
     ui->lineEdit_graphics_clock_max->setText(QString::number(current_gpu_.get_max_clock_graphics() + gpu_clock_offset) + " MHz");
@@ -410,28 +403,26 @@ void MainWindow::set_max_clock_values(int gpu_clock_offset, int mem_clock_offset
 
 void MainWindow::update_clock_offset_widgets(int gpu_clock_offset, int mem_clock_offset) const
 {
-    static const auto set_value {[](QSpinBox* const spinbox, int value) { spinbox->setValue(value); }};
     const auto& [spin_boxes_gpu_offset, spin_boxes_memory_offset] {get_clock_offset_widgets()};
 
     std::for_each(spin_boxes_gpu_offset.begin(), spin_boxes_gpu_offset.end(),
-                  std::bind(set_value, std::placeholders::_1, gpu_clock_offset));
+                  [gpu_clock_offset](QSpinBox* const widget) { widget->setValue(gpu_clock_offset); });
+
     std::for_each(spin_boxes_memory_offset.begin(), spin_boxes_memory_offset.end(),
-                  std::bind(set_value, std::placeholders::_1, mem_clock_offset));
+                  [mem_clock_offset](QSpinBox* const widget) { widget->setValue(mem_clock_offset); });
 }
 
 
 
 void MainWindow::update_clock_offset_widgets(const nlohmann::json& curr_clock_profile) const
 {
-    static const auto set_values_helper {
-        [](const auto& widgets, const std::pair<int, int>& values) {
-            const auto [pstate_num, offset_value] {values};
-            widgets[pstate_num]->setValue(offset_value);
-        }
-    };
-    static const auto set_values {
-        [](const auto& widgets, const nlohmann::json& json_data) {
-            set_values_helper(widgets, json_data.get<std::pair<int, int>>());
+    static const auto set_values_for {
+        [](const std::vector<QSpinBox*>& widgets, const nlohmann::json& offsets) {
+            for (const auto& offset : offsets)
+            {
+                const auto [index, value] {offset.get<std::pair<int, int>>()};
+                widgets[index]->setValue(value);
+            }
         }
     };
 
@@ -439,10 +430,8 @@ void MainWindow::update_clock_offset_widgets(const nlohmann::json& curr_clock_pr
     const auto& gpu_clock_offsets = curr_clock_profile["offset_values"]["gpu_offsets"];
     const auto& memory_clock_offsets = curr_clock_profile["offset_values"]["memory_offsets"];
 
-    std::for_each(gpu_clock_offsets.begin(), gpu_clock_offsets.end(),
-                  std::bind(set_values, spin_boxes_gpu_offset, std::placeholders::_1));
-    std::for_each(memory_clock_offsets.begin(), memory_clock_offsets.end(),
-                  std::bind(set_values, spin_boxes_memory_offset, std::placeholders::_1));
+    set_values_for(spin_boxes_gpu_offset, gpu_clock_offsets);
+    set_values_for(spin_boxes_memory_offset, memory_clock_offsets);
 }
 
 
@@ -452,23 +441,23 @@ const std::pair<std::vector<QSpinBox*>, std::vector<QSpinBox*>>& MainWindow::get
     static const std::pair<std::vector<QSpinBox*>, std::vector<QSpinBox*>> widgets_list {
         {
             ui->spinBox_pstate0_gpu_offset,
-                    ui->spinBox_pstate1_gpu_offset,
-                    ui->spinBox_pstate2_gpu_offset,
-                    ui->spinBox_pstate3_gpu_offset,
-                    ui->spinBox_pstate4_gpu_offset,
-                    ui->spinBox_pstate5_gpu_offset,
-                    ui->spinBox_pstate6_gpu_offset,
-                    ui->spinBox_pstate7_gpu_offset
+            ui->spinBox_pstate1_gpu_offset,
+            ui->spinBox_pstate2_gpu_offset,
+            ui->spinBox_pstate3_gpu_offset,
+            ui->spinBox_pstate4_gpu_offset,
+            ui->spinBox_pstate5_gpu_offset,
+            ui->spinBox_pstate6_gpu_offset,
+            ui->spinBox_pstate7_gpu_offset
         },
         {
             ui->spinBox_pstate0_mem_offset,
-                    ui->spinBox_pstate1_mem_offset,
-                    ui->spinBox_pstate2_mem_offset,
-                    ui->spinBox_pstate3_mem_offset,
-                    ui->spinBox_pstate4_mem_offset,
-                    ui->spinBox_pstate5_mem_offset,
-                    ui->spinBox_pstate6_mem_offset,
-                    ui->spinBox_pstate7_mem_offset
+            ui->spinBox_pstate1_mem_offset,
+            ui->spinBox_pstate2_mem_offset,
+            ui->spinBox_pstate3_mem_offset,
+            ui->spinBox_pstate4_mem_offset,
+            ui->spinBox_pstate5_mem_offset,
+            ui->spinBox_pstate6_mem_offset,
+            ui->spinBox_pstate7_mem_offset
         },
     };
 
@@ -711,16 +700,16 @@ void MainWindow::connect_slots_and_signals()
         ui->label_power_limit_slider_indicator->setText(QString::number(value));
     });
 
-    connect(&gpu_systems_controller_, &GpuSystemsController::utilization_info_ready, this, &MainWindow::on_GpuUtilizationsController_info_ready);
-    connect(&gpu_systems_controller_, &GpuSystemsController::power_info_ready, this, &MainWindow::on_GpuPowerController_info_ready);
-    connect(&gpu_systems_controller_, &GpuSystemsController::clock_info_ready, this, &MainWindow::on_GpuClockController_info_ready);
-    connect(&gpu_systems_controller_, &GpuSystemsController::fan_info_ready, this, &MainWindow::on_GpuFanController_info_ready);
+    connect(&gpu_systems_controller_, &GpuSystemsController::utilization_info_ready, this, &MainWindow::utilization_info_ready);
+    connect(&gpu_systems_controller_, &GpuSystemsController::power_info_ready, this, &MainWindow::power_info_ready);
+    connect(&gpu_systems_controller_, &GpuSystemsController::clock_info_ready, this, &MainWindow::clock_info_ready);
+    connect(&gpu_systems_controller_, &GpuSystemsController::fan_info_ready, this, &MainWindow::fan_info_ready);
 
-    connect(&gpu_systems_controller_, &GpuSystemsController::power_controller_error, this, &MainWindow::on_GpuPowerController_error_occured);
-    connect(&gpu_systems_controller_, &GpuSystemsController::clock_controller_error, this, &MainWindow::on_GpuClockController_error_occured);
-    connect(&gpu_systems_controller_, &GpuSystemsController::fan_controller_error, this, &MainWindow::on_GpuFanController_error_occured);
+    connect(&gpu_systems_controller_, &GpuSystemsController::power_controller_error, this, &MainWindow::power_controller_error);
+    connect(&gpu_systems_controller_, &GpuSystemsController::clock_controller_error, this, &MainWindow::clock_controller_error);
+    connect(&gpu_systems_controller_, &GpuSystemsController::fan_controller_error, this, &MainWindow::fan_controller_error);
     connect(&gpu_systems_controller_, &GpuSystemsController::utilization_controller_encoder_unsupported,
-            this, &MainWindow::on_GpuUtilizationsController_encoder_decoder_unsupported);
+            this, &MainWindow::utilization_encoder_decoder_unsupported);
 
     connect(update_checker_thread_.get(), &UpdateChecker::new_version_released, this, &MainWindow::on_UpdateChecker_new_version_released);
     connect(update_checker_thread_.get(), &UpdateChecker::update_not_found, this, &MainWindow::on_UpdateChecker_update_not_found);
