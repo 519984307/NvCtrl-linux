@@ -42,7 +42,7 @@ void RecentUpdatesDialog::on_buttonBox_rejected()
 
 
 
-void RecentUpdatesDialog::on_label_changelog_text_linkActivated(const QString& link)
+void RecentUpdatesDialog::on_label_changelog_text_linkActivated(const QString& link) const
 {
     QDesktopServices::openUrl(QUrl{link});
 }
