@@ -17,7 +17,7 @@ public:
 private slots:
     void on_buttonBox_accepted();
     void on_buttonBox_rejected();
-    void on_label_changelog_text_linkActivated(const QString& link);
+    void on_label_changelog_text_linkActivated(const QString& link) const;
 
 private:
     Ui::RecentUpdatesDialog* ui;
