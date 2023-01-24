@@ -51,14 +51,15 @@ private slots:
     void on_EditClockOffsetProfileDialog_current_clock_offset_profile_changed(const nlohmann::json& curr_clock_profile);
     void on_EditClockOffsetProfileDialog_current_clock_offset_profile_removed();
 
-    void on_GpuUtilizationsController_info_ready(const GpuUtilizationsController::utilization_rates& utilization_rates);
-    void on_GpuPowerController_info_ready(const GpuPowerController::power_rates& power_rates);
-    void on_GpuClockController_info_ready(const GpuClockController::clock_values& clock_values);
-    void on_GpuFanController_info_ready(const GpuFanController::fan_rates& fan_rates);
-    void on_GpuUtilizationsController_encoder_decoder_unsupported();
-    void on_GpuPowerController_error_occured();
-    void on_GpuClockController_error_occured();
-    void on_GpuFanController_error_occured();
+    void utilization_info_ready(const GpuUtilizationsController::utilization_rates& utilization_rates);
+    void power_info_ready(const GpuPowerController::power_rates& power_rates);
+    void clock_info_ready(const GpuClockController::clock_values& clock_values);
+    void fan_info_ready(const GpuFanController::fan_rates& fan_rates);
+
+    void utilization_encoder_decoder_unsupported();
+    void power_controller_error();
+    void clock_controller_error();
+    void fan_controller_error();
 
     void on_UpdateChecker_error_occured(const QString& message);
     void on_UpdateChecker_new_version_released(const QString& version);
@@ -124,7 +125,6 @@ private:
     void restore_last_power_profile();
 
     void set_static_info();
-    void set_current_gpu_for_controllers() noexcept;
     void set_max_clock_values(int gpu_clock_offset = 0, int mem_clock_offset = 0) const;
 
     void update_clock_offset_widgets(int gpu_clock_offset, int mem_clock_offset) const;
