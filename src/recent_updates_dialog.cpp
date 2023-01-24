@@ -5,7 +5,7 @@
 #include "recent_updates_dialog.hpp"
 #include "ui_recent_updates_dialog.h"
 
-constexpr const char* changelog_file_url {"https://codeberg.org/AlexCr4ckPentest/NvCtrl-linux/raw/branch/single-gpu/CHANGELOG.md"};
+constexpr const char* CHANGELOG_FILE_URL {"https://codeberg.org/AlexCr4ckPentest/NvCtrl-linux/raw/branch/single-gpu/CHANGELOG.md"};
 
 
 
@@ -53,7 +53,7 @@ void RecentUpdatesDialog::showEvent(QShowEvent* show_event)
 {
     qInfo().noquote().nospace() << "Getting changelog...";
 
-    retrieve_changelog_process_.start(QStringLiteral("/usr/bin/curl"), {changelog_file_url});
+    retrieve_changelog_process_.start(QStringLiteral("/usr/bin/curl"), {CHANGELOG_FILE_URL});
     retrieve_changelog_process_.waitForFinished();
 
     const int err_code {retrieve_changelog_process_.exitCode()};
@@ -67,12 +67,9 @@ void RecentUpdatesDialog::showEvent(QShowEvent* show_event)
     }
     else
     {
-        QString changelog {};
-        changelog.reserve(retrieve_changelog_process_.bytesAvailable());
-        changelog = retrieve_changelog_process_.readAll();
-
+        QString changelog {retrieve_changelog_process_.readAll()};
         ui->label_changelog_text->setText(changelog);
-        qInfo().noquote().nospace() << "Changelog loaded!";
+        qInfo().noquote().nospace() << "Changelog loaded";
     }
 
     show_event->accept();
