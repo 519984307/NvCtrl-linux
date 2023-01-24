@@ -1,4 +1,3 @@
-#include <cstdlib>
 #include <filesystem>
 #include <iterator>
 
@@ -48,9 +47,8 @@ nlohmann::json SettingsManager::read_settings()
 
     qDebug().noquote().nospace() << "Reading settings from: " << file_name_.c_str();
 
-    // Assumes that the user is never editting file manually
-    // Any atempt to modify config file manually may results to runtime errors and other issues
     auto app_settings = nlohmann::json::parse(std::move(raw_json_string));
+    validate_settings(app_settings);
 
     return app_settings;
 }
@@ -112,6 +110,25 @@ void SettingsManager::open_file(std::ios::openmode open_mode)
 void SettingsManager::close_file()
 {
     settings_file_.close();
+}
+
+
+
+void SettingsManager::validate_settings(nlohmann::json& app_settings)
+{
+    bool something_was_invalid {false};
+    auto& update_freq_ms {app_settings["update_freq_ms"]};
+
+    if (update_freq_ms < default_settings["update_freq_ms"])
+    {
+        update_freq_ms = default_settings["update_freq_ms"];
+        something_was_invalid = true;
+    }
+
+    if (something_was_invalid)
+    {
+        write_settings(app_settings);
+    }
 }
 
 

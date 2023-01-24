@@ -24,5 +24,7 @@ private:
 
     void open_file(std::ios::openmode open_mode);
     void close_file();
+    void validate_settings(nlohmann::json& app_settings);
+
     const std::string& get_home_dir() const;
 };
