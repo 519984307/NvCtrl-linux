@@ -49,6 +49,7 @@ function build_native()
 function build_appimage()
 {
   echo -e "\e[1;34m[*]\e[0m Selected: AppImage (portable) Linux build"
+  ./scripts/generate_appimage.sh "./build-native"
 }
 
 function build_win32()
