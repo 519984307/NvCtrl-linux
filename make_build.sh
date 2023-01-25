@@ -12,6 +12,11 @@ function build_impl()
   fi
 
   cd $build_dir_name
+
+  if [ -f NvCtrl-Linux ]
+  then
+    make clean
+  fi
   echo -e "\e[1;34m[*]\e[0m Build started..."
   cmake .. && make -j$(nproc)
 
