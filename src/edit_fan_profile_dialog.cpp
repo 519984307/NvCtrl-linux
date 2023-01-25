@@ -53,7 +53,7 @@ void EditFanProfileDialog::on_buttonBox_accepted()
     }
     else
     {
-        auto& current_fan_profile = ptr_app_settings_->at("fan_speed_profiles")[current_fan_profile_index_];
+        auto& current_fan_profile = (*ptr_app_settings_)["fan_speed_profiles"][current_fan_profile_index_];
         current_fan_profile["fan_speed"] = ui->horizontalSlider_fan_speed_level->value();
         current_fan_profile["name"] = ui->lineEdit_current_profile_name->text().toStdString();
 
@@ -77,7 +77,7 @@ void EditFanProfileDialog::on_buttonBox_rejected()
 
 void EditFanProfileDialog::on_pushButton_remove_current_profile_clicked()
 {
-    auto& fan_profiles = ptr_app_settings_->at("fan_speed_profiles");
+    auto& fan_profiles = (*ptr_app_settings_)["fan_speed_profiles"];
 
     fan_profiles.erase(current_fan_profile_index_);
     emit current_fan_profile_removed();
@@ -90,7 +90,7 @@ void EditFanProfileDialog::on_pushButton_remove_current_profile_clicked()
 
 void EditFanProfileDialog::showEvent(QShowEvent* event_)
 {
-    const auto& current_fan_profile = ptr_app_settings_->at("fan_speed_profiles")[current_fan_profile_index_];
+    const auto& current_fan_profile = (*ptr_app_settings_)["fan_speed_profiles"][current_fan_profile_index_];
     ui->lineEdit_current_profile_name->setText(QString::fromStdString(current_fan_profile["name"].get<std::string>()));
     ui->horizontalSlider_fan_speed_level->setValue(current_fan_profile["fan_speed"].get<unsigned>());
 

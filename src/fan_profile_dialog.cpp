@@ -45,8 +45,7 @@ void FanProfileDialog::on_pushButton_create_new_profile_clicked()
     }
     else
     {
-        auto& app_settings_ref {*ptr_app_settings_};
-        auto& fan_speed_profiles = app_settings_ref["fan_speed_profiles"];
+        auto& fan_speed_profiles = (*ptr_app_settings_)["fan_speed_profiles"];
 
         fan_speed_profiles.emplace_back(nlohmann::json::object_t {
                                             {"name", new_fan_profile_name.toStdString()},

@@ -73,8 +73,8 @@ void ClockProfileDialog::on_buttonBox_accepted()
         };
 
         auto& gpu_offsets = new_profile["offset_values"]["gpu_offsets"];
-        fill_array_from_widgets(gpu_offsets, pstates_gpu_);
         auto& memory_offests = new_profile["offset_values"]["memory_offsets"];
+        fill_array_from_widgets(gpu_offsets, pstates_gpu_);
         fill_array_from_widgets(memory_offests, pstates_mem_);
 
         if (!gpu_offsets.empty() || !memory_offests.empty())
@@ -110,7 +110,7 @@ void ClockProfileDialog::on_buttonBox_rejected()
 
 void ClockProfileDialog::connect_signals_and_slots()
 {
-    const auto connect_signals {
+    static const auto connect_signals {
         [](const auto& widgets) {
             const auto& [check_box, slider, spin_box] {widgets};
             connect(check_box, &QCheckBox::clicked, slider, &QSlider::setEnabled);
@@ -127,7 +127,7 @@ void ClockProfileDialog::connect_signals_and_slots()
 
 void ClockProfileDialog::reset_on_form_widgets()
 {
-    const auto clear_widgets {
+    static const auto clear_widgets {
         [](const auto& widgets) {
             const auto& [check_box, slider, spin_box] {widgets};
             slider->setValue(0);
