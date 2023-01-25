@@ -1,3 +1,15 @@
+## Version 1.5.4 (pre-release (UNSTABLE))
+### Changes and fixes
+* Change some std::for_each() to raw for loops for readability
+* Added settings validation
+* Moved AppImage generation script to subfolder
+* Added AppImage support in build script
+* Other internal changes (codestyle + readability)
+### Download
+Download source code [for version 1.5.4](https://codeberg.org/AlexCr4ckPentest/NvCtrl-linux/releases/tag/v1.5.4)
+
+Download AppImage file [for version 1.5.4](https://codeberg.org/AlexCr4ckPentest/NvCtrl-linux/releases/tag/v1.5.4)
+
 ## Version 1.5.3 (pre-release (UNSTABLE))
 ### Changes and fixes
 * Critical: fixed bug in update checker
