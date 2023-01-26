@@ -19,8 +19,8 @@ public:
     explicit EditClockOffsetProfileDialog(QWidget* parent = nullptr);
     ~EditClockOffsetProfileDialog();
 
-    inline void load_app_settings(nlohmann::json* app_settings) noexcept { ptr_app_settings_ = app_settings; }
-    inline void set_current_clock_offset_profile_index(unsigned index) noexcept { current_clock_offset_profile_index_= index; }
+    void load_app_settings(nlohmann::json* app_settings) noexcept;
+    void set_current_clock_offset_profile_index(unsigned index) noexcept;
 
 signals:
     void current_clock_offset_profile_changed(const nlohmann::json&);
