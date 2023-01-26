@@ -12,6 +12,15 @@ GpuPowerController::GpuPowerController(QObject* parrent)
     , current_gpu_ {nullptr}
 { }
 
+
+
+void GpuPowerController::set_device(const NVMLpp::NVML_device* nvml_device) noexcept
+{
+    current_gpu_ = nvml_device;
+}
+
+
+
 void GpuPowerController::set_power_limit(unsigned limit)
 {
     const auto ret_code {QProcess::execute(PKEXEC_BIN, {NVIDIA_SMI_BIN, "-pl", QString::number(limit)})};

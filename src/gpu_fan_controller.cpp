@@ -17,6 +17,13 @@ GpuFanController::GpuFanController(QObject* parent)
 
 
 
+void GpuFanController::set_device(NVMLpp::NVML_device* nvml_device) noexcept
+{
+    current_gpu_ = nvml_device;
+}
+
+
+
 void GpuFanController::update_info()
 {
     try
