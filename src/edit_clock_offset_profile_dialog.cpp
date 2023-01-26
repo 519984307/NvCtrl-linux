@@ -48,6 +48,20 @@ EditClockOffsetProfileDialog::~EditClockOffsetProfileDialog()
 
 
 
+void EditClockOffsetProfileDialog::load_app_settings(nlohmann::json* app_settings) noexcept
+{
+    ptr_app_settings_ = app_settings;
+}
+
+
+
+void EditClockOffsetProfileDialog::set_current_clock_offset_profile_index(unsigned index) noexcept
+{
+    current_clock_offset_profile_index_= index;
+}
+
+
+
 void EditClockOffsetProfileDialog::on_buttonBox_accepted()
 {
     if (ui->lineEdit_current_profile_name->text().isEmpty())
