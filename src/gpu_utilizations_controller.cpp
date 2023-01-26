@@ -7,6 +7,15 @@ GpuUtilizationsController::GpuUtilizationsController(QObject* parrent)
     , current_gpu_ {nullptr}
 { }
 
+
+
+void GpuUtilizationsController::set_device(const NVMLpp::NVML_device* nvml_device) noexcept
+{
+    current_gpu_ = nvml_device;
+}
+
+
+
 void GpuUtilizationsController::update_info()
 {
     utilization_rates utilisation_rates_ {

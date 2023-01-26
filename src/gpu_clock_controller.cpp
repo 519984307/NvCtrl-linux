@@ -17,6 +17,13 @@ GpuClockController::GpuClockController(QObject* parrent)
 
 
 
+void GpuClockController::set_device(const NVMLpp::NVML_device* nvml_device) noexcept
+{
+    current_gpu_ = nvml_device;
+}
+
+
+
 void GpuClockController::apply_clock_profile(const nlohmann::json& clock_offset_profile)
 {
     const auto& gpu_offsets = clock_offset_profile["offset_values"]["gpu_offsets"];

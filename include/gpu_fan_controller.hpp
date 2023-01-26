@@ -14,7 +14,7 @@ public:
     };
 
     GpuFanController(QObject* parent = nullptr);
-    inline void set_device(NVMLpp::NVML_device* nvml_device) noexcept { current_gpu_ = nvml_device; }
+    void set_device(NVMLpp::NVML_device* nvml_device) noexcept;
 
 public slots:
     void update_info();

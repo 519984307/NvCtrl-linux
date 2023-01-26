@@ -19,7 +19,7 @@ public:
     };
 
     GpuClockController(QObject* parrent = nullptr);
-    inline void set_device(const NVMLpp::NVML_device* nvml_device) noexcept { current_gpu_ = nvml_device; }
+    void set_device(const NVMLpp::NVML_device *nvml_device) noexcept;
 
     void apply_clock_profile(const nlohmann::json& clock_offset_profile);
     void reset_clocks();
