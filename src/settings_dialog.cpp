@@ -23,7 +23,7 @@ SettingsDialog::~SettingsDialog()
 
 
 
-void SettingsDialog::load_app_settins(nlohmann::json* app_settings) noexcept
+void SettingsDialog::load_app_settings(nlohmann::json* app_settings) noexcept
 {
     ptr_app_settings_ = app_settings;
 }

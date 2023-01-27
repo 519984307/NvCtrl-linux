@@ -15,7 +15,7 @@ public:
     explicit SettingsDialog(QWidget* parent = nullptr);
     ~SettingsDialog();
 
-    void load_app_settins(nlohmann::json* app_settings) noexcept;
+    void load_app_settings(nlohmann::json* app_settings) noexcept;
 
 private slots:
     void on_buttonBox_accepted();
