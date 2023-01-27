@@ -19,15 +19,15 @@ public slots:
     void check_for_updates();
 
 signals:
-    void new_version_released(const QString&);
+    void update_found(const QString&);
     void update_not_found();
     void error_occured(const QString&);
 
-protected:
-    using QThread::start;
-    void run() override;
-
 private:
+    using QThread::start;
+
     QProcess retrieve_last_ver_process_;
     unsigned branch_type_;
+
+    void run() override;
 };

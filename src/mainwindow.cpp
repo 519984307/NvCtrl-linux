@@ -276,7 +276,7 @@ void MainWindow::on_UpdateChecker_error_occured(const QString& message)
 
 
 
-void MainWindow::on_UpdateChecker_new_version_released(const QString& version)
+void MainWindow::on_UpdateChecker_update_found(const QString& version)
 {
     const auto result {
         QMessageBox::information(this,
@@ -711,7 +711,7 @@ void MainWindow::connect_slots_and_signals()
     connect(&gpu_systems_controller_, &GpuSystemsController::utilization_controller_encoder_unsupported,
             this, &MainWindow::utilization_encoder_decoder_unsupported);
 
-    connect(update_checker_thread_.get(), &UpdateChecker::new_version_released, this, &MainWindow::on_UpdateChecker_new_version_released);
+    connect(update_checker_thread_.get(), &UpdateChecker::update_found, this, &MainWindow::on_UpdateChecker_update_found);
     connect(update_checker_thread_.get(), &UpdateChecker::update_not_found, this, &MainWindow::on_UpdateChecker_update_not_found);
     connect(update_checker_thread_.get(), &UpdateChecker::error_occured, this, &MainWindow::on_UpdateChecker_error_occured);
 

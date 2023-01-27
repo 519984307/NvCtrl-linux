@@ -41,21 +41,19 @@ void UpdateChecker::run()
 {
     qInfo().noquote().nospace() << "Checking for updates...";
 
-    if (branch_type_ == MAIN_BRANCH)
-    {
-        retrieve_last_ver_process_.start(CURL_BINARY, {VERSION_FILE_URL_MAIN});
-    }
-    else
-    {
-        retrieve_last_ver_process_.start(CURL_BINARY, {VERSION_FILE_URL_DEV});
-    }
-
+    retrieve_last_ver_process_.start(CURL_BINARY, {branch_type_ == MAIN_BRANCH ?
+                                                   VERSION_FILE_URL_MAIN : VERSION_FILE_URL_DEV});
     retrieve_last_ver_process_.waitForFinished();
+
     const int err_code {retrieve_last_ver_process_.exitCode()};
 
     if (err_code != 0)
     {
-        const QString error_msg {QString{"Failed to check update: %1, code: %2"}.arg(retrieve_last_ver_process_.errorString()).arg(err_code)};
+        const QString error_msg {
+            QStringLiteral("Failed to check update: %1, code: %2")
+                    .arg(retrieve_last_ver_process_.errorString())
+                    .arg(err_code)
+        };
         qCritical().noquote().nospace() << error_msg;
         emit error_occured(error_msg);
     }
@@ -64,10 +62,12 @@ void UpdateChecker::run()
         const QString last_version {retrieve_last_ver_process_.readAll().trimmed()};
         const QString current_version {NvCtrl::config::APP_VERSION_STRING};
 
+        qInfo().noquote().nospace() << "Remote version: v" << last_version << ", current: v" << current_version;
+
         if (last_version > current_version)
         {
             qInfo().noquote().nospace() << "New update: v" << last_version;
-            emit new_version_released(last_version);
+            emit update_found(last_version);
         }
         else
         {
