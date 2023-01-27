@@ -62,7 +62,7 @@ private slots:
     void fan_controller_error();
 
     void on_UpdateChecker_error_occured(const QString& message);
-    void on_UpdateChecker_new_version_released(const QString& version);
+    void on_UpdateChecker_update_found(const QString& version);
     void on_UpdateChecker_update_not_found();
 
     void on_comboBox_select_fan_profile_activated(int index);
