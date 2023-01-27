@@ -405,11 +405,15 @@ void MainWindow::update_clock_offset_widgets(int gpu_clock_offset, int mem_clock
 {
     const auto& [spin_boxes_gpu_offset, spin_boxes_memory_offset] {get_clock_offset_widgets()};
 
-    std::for_each(spin_boxes_gpu_offset.begin(), spin_boxes_gpu_offset.end(),
-                  [gpu_clock_offset](QSpinBox* const widget) { widget->setValue(gpu_clock_offset); });
+    for (const auto& widget : spin_boxes_gpu_offset)
+    {
+        widget->setValue(gpu_clock_offset);
+    }
 
-    std::for_each(spin_boxes_memory_offset.begin(), spin_boxes_memory_offset.end(),
-                  [mem_clock_offset](QSpinBox* const widget) { widget->setValue(mem_clock_offset); });
+    for (const auto& widget : spin_boxes_memory_offset)
+    {
+        widget->setValue(mem_clock_offset);
+    }
 }
 
 
