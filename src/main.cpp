@@ -1,7 +1,6 @@
-#include <filesystem>
-
 #include <QApplication>
 #include <QMessageBox>
+#include <QUrl>
 #include <QDebug>
 
 #include "spdlog/spdlog.h"
@@ -22,7 +21,7 @@ static void qt_message_handler(QtMsgType msg_type, const QMessageLogContext& con
         break;
     case QtMsgType::QtDebugMsg:
         spdlog::debug("[{}:{} {}]: {}",
-                      std::filesystem::path{context.file}.filename().string(),
+                      QUrl{context.file}.fileName().toStdString(),
                       context.line, context.function, message.toStdString());
         break;
     case QtMsgType::QtFatalMsg:

@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.5)
 
-project(NvCtrl-Linux VERSION 1.5.6 LANGUAGES CXX)
+project(NvCtrl-Linux VERSION 1.5.7 LANGUAGES CXX)
 
 if(NOT WIN32)
     string(ASCII 27 Esc)
@@ -25,6 +25,7 @@ endif()
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(USE_LTO ON)
+set(USE_ASAN OFF)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOUIC ON)
@@ -50,6 +51,11 @@ if(USE_LTO)
     message("Link time optimizations: ${Green}ON")
 else()
     message("Link time optimizations: ${Red}OFF")
+endif()
+
+if(USE_ASAN)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address")
+    message("Using sanitizer: ${Yellow}ASAN")
 endif()
 
 if("${CMAKE_CXX_COMPILER}" MATCHES "mingw")
