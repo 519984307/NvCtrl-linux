@@ -510,8 +510,8 @@ void MainWindow::closeEvent(QCloseEvent* close_event)
             SettingsManager::instance().write_settings(app_settings_);
         }
 
-        tray_icon_.hide();
         close_event->accept();
+        tray_icon_.hide();
         qInfo().noquote().nospace() << "Close event accepted, MainWindow closed";
     }
 }
@@ -623,7 +623,7 @@ void MainWindow::on_pushButton_edit_current_clock_offset_profile_clicked()
 
 void MainWindow::on_actionSettings_triggered()
 {
-    settings_dialog_window_.load_app_settins(&app_settings_);
+    settings_dialog_window_.load_app_settings(&app_settings_);
     settings_dialog_window_.show();
 }
 
