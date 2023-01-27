@@ -1,3 +1,11 @@
+## Version 1.5.7 (release)
+### Changes and fixes
+* HOTFIX: fixed segmentation fault error with std::filesystem::path
+### Download
+Download source code [for version 1.5.7](https://codeberg.org/AlexCr4ckPentest/NvCtrl-linux/releases/tag/v1.5.7)
+
+Download AppImage file [for version 1.5.7](https://codeberg.org/AlexCr4ckPentest/NvCtrl-linux/releases/tag/v1.5.7)
+
 ## Version 1.5.6 (release)
 ### Changes and fixes
 * Changed method GpuClockController::apply_clock_profile:
