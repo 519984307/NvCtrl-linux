@@ -72,13 +72,15 @@ SettingsManager& SettingsManager::instance()
 
 SettingsManager::SettingsManager()
     : settings_file_ {}
-    , file_name_ {get_home_dir() + "NvCtrl-Linux.json"}
+    , file_name_ {}
 {
     if (!std::filesystem::exists(get_home_dir()))
     {
         qDebug().noquote().nospace() << "Directory " << get_home_dir().c_str() << " doesn`t exists and will be created";
         std::filesystem::create_directory(get_home_dir());
     }
+
+    file_name_ = get_home_dir() + "NvCtrl-Linux.json";
 
     if (!std::filesystem::exists(file_name_))
     {
