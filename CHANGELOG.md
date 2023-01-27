@@ -1,4 +1,27 @@
-## Version 1.5.4 (pre-release (UNSTABLE))
+## Version 1.5.6 (release)
+### Changes and fixes
+* Changed method GpuClockController::apply_clock_profile:
+* * require arg - ref to current profile
+* * replace raw for loops by std::for_each() + lambda
+* Changed method MainWindow::load_fan_and_clock_offset_profiles(): 
+* * replace raw for loops by std::for_each() + lambda 
+* Clock profile values now shows only when profile applied
+* Refactored MainWindow class
+* Unifiend all controllers into one class - GpuSystemsController
+* Removed some dead code
+* Change some std::for_each() to raw for loops for readability
+* Added settings validation
+* Moved AppImage generation script to subfolder
+* Added AppImage support in build script
+* Critical: fixed bug in update checker
+* Replace some std::for_each() with raw for loops (for readability)
+* Marked some lambda\`s as static
+### Download
+Download source code [for version 1.5.6](https://codeberg.org/AlexCr4ckPentest/NvCtrl-linux/releases/tag/v1.5.6)
+
+Download AppImage file [for version 1.5.6](https://codeberg.org/AlexCr4ckPentest/NvCtrl-linux/releases/tag/v1.5.6)
+
+## Version 1.5.5 (pre-release (UNSTABLE))
 ### Changes and fixes
 * Change some std::for_each() to raw for loops for readability
 * Added settings validation
