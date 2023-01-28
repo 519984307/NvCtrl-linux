@@ -15,7 +15,7 @@ Simple and lightweight utility for control Nvida GPU on GNU/Linux
 ##### Default (native build) for GNU/Linux
 * C++ compiler: (GCC or LLVM Clang) with C++17 support
 * CMake and Make
-* Qt5 package (Qt5Core, Qt5Widgets, Qt5Gui, Qt5DBus)
+* Qt5 package (Qt5Core, Qt5Widgets, Qt5Gui, Qt5DBus, Qt5Charts)
 * Nvidia drivers 510.XX or later (NVML required)
 ##### Additional dependencies for AppImage builds
 * appimagetool: utility for creating AppImage builds

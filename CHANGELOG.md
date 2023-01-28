@@ -1,3 +1,12 @@
+## Version 1.5.9 (pre-release (UNSTABLE))
+### Changes and fixes
+* Added new dependency: Qt5Charts (for real time chart view)
+* Some other internal changes
+### Download
+Download source code [for version 1.5.9](https://codeberg.org/AlexCr4ckPentest/NvCtrl-linux/releases/tag/v1.5.9)
+
+Download AppImage file [for version 1.5.9](https://codeberg.org/AlexCr4ckPentest/NvCtrl-linux/releases/tag/v1.5.9)
+
 ## Version 1.5.7 (release)
 ### Changes and fixes
 * HOTFIX: fixed segmentation fault error with std::filesystem::path
