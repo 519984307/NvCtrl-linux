@@ -9,6 +9,8 @@ class GpuClockController final : public QObject
 {
     Q_OBJECT
 
+    enum { PSTATE_COUNT = 8 };
+
 public:
     struct clock_values
     {

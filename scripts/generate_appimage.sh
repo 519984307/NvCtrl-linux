@@ -41,6 +41,7 @@ then
   copy_runtime_lib "/usr/lib/libQt5Gui.so.5"
   copy_runtime_lib "/usr/lib/libQt5Widgets.so.5"
   copy_runtime_lib "/usr/lib/libQt5DBus.so.5"
+  copy_runtime_lib "/usr/lib/libQt5Charts.so.5"
   copy_runtime_lib "/usr/lib/libpng16.so.16"
   copy_runtime_lib "/usr/lib/libz.so.1"
   copy_runtime_lib "/usr/lib/libharfbuzz.so.0"

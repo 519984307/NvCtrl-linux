@@ -2,7 +2,7 @@
 
 #include "measure_time.hpp"
 
-MeasureTime::MeasureTime(std::string_view start_message, std::string_view end_message) noexcept
+MeasureTime::MeasureTime(std::string_view start_message, std::string_view end_message)
     : time_start_ {std::chrono::high_resolution_clock::now()}
     , end_message_ {end_message}
 {

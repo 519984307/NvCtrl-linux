@@ -11,7 +11,7 @@ public:
     MeasureTime(MeasureTime&&) = delete;
     MeasureTime& operator=(MeasureTime&&) = delete;
 
-    MeasureTime(std::string_view start_message = "", std::string_view end_message = "Time elapsed: {} ms") noexcept;
+    MeasureTime(std::string_view start_message = "", std::string_view end_message = "Time elapsed: {} ms") ;
     ~MeasureTime();
 
 private:
