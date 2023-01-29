@@ -1,3 +1,13 @@
+## Version 1.5.10 (release)
+### Changes and fixes
+* Added new dependency: Qt5Charts (for real time chart view)
+* Improved settings validation
+* Some other internal changes
+### Download
+Download source code [for version 1.5.10](https://codeberg.org/AlexCr4ckPentest/NvCtrl-linux/releases/tag/v1.5.10)
+
+Download AppImage file [for version 1.5.10](https://codeberg.org/AlexCr4ckPentest/NvCtrl-linux/releases/tag/v1.5.10)
+
 ## Version 1.5.9 (pre-release (UNSTABLE))
 ### Changes and fixes
 * Added new dependency: Qt5Charts (for real time chart view)

@@ -37,7 +37,7 @@ set(CMAKE_AUTOGEN_BUILD_DIR "./include")
 
 
 
-find_package(Qt5 COMPONENTS Widgets DBus Charts REQUIRED)
+find_package(Qt5 COMPONENTS Widgets DBus REQUIRED)
 
 file(GLOB_RECURSE SRC src/*.cpp)
 file(GLOB_RECURSE HDR include/*.hpp)
@@ -97,6 +97,6 @@ add_compile_definitions(APP_VERSION="${PROJECT_VERSION}")
 add_compile_definitions(APP_BUILD_TYPE="${CMAKE_BUILD_TYPE}")
 
 add_executable(${PROJECT_NAME} ${PROJECT_SOURCES} ${RESOURCES})
-target_link_libraries(${PROJECT_NAME} PUBLIC Qt5::Widgets Qt5::DBus Qt5::Charts NVMLpp spdlog)
+target_link_libraries(${PROJECT_NAME} PUBLIC Qt5::Widgets Qt5::DBus NVMLpp spdlog)
 
 write_file(../.last_version "${PROJECT_VERSION}")
