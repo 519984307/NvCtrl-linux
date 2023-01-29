@@ -119,11 +119,41 @@ void SettingsManager::close_file()
 void SettingsManager::validate_settings(nlohmann::json& app_settings)
 {
     bool something_was_invalid {false};
-    auto& update_freq_ms {app_settings["update_freq_ms"]};
 
-    if (update_freq_ms < default_settings["update_freq_ms"])
+    auto& update_freq_ms {app_settings["update_freq_ms"]};
+    auto& fan_speed_profiles {app_settings["fan_speed_profiles"]};
+    auto& clock_offset_profiles {app_settings["clock_offset_profiles"]};
+
+    if (update_freq_ms.is_null() || !update_freq_ms.is_number()
+            || update_freq_ms < default_settings["update_freq_ms"])
     {
         update_freq_ms = default_settings["update_freq_ms"];
+        something_was_invalid = true;
+    }
+
+    if (fan_speed_profiles.is_null() || !fan_speed_profiles.is_array())
+    {
+        fan_speed_profiles = default_settings["fan_speed_profiles"];
+        something_was_invalid = true;
+    }
+    else if (fan_speed_profiles.empty()
+            || fan_speed_profiles[0]["name"]
+            != default_settings["fan_speed_profiles"][0]["name"])
+    {
+        fan_speed_profiles[0] = default_settings["fan_speed_profiles"][0];
+        something_was_invalid = true;
+    }
+
+    if (clock_offset_profiles.is_null() || !clock_offset_profiles.is_array())
+    {
+        clock_offset_profiles = default_settings["clock_offset_profiles"];
+        something_was_invalid = true;
+    }
+    else if (clock_offset_profiles.empty()
+             || clock_offset_profiles[0]["name"]
+             != default_settings["clock_offset_profiles"][0]["name"])
+    {
+        clock_offset_profiles[0] = default_settings["clock_offset_profiles"][0];
         something_was_invalid = true;
     }
 
